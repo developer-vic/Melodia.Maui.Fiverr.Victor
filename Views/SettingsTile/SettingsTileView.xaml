@@ -40,14 +40,6 @@
                            TextColor="White"
                            FontSize="{OnIdiom Phone=14, Tablet=20, Default=14}"/>
                 </StackLayout>
-
-                <!-- Chevron -->
-                <!-- <Label Grid.Column="2" 
-                       FontFamily="FontAwesome"
-                       Text="&#xf054;"
-                       TextColor="Grey"
-                       FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
-                       VerticalOptions="Center" /> -->
             </Grid>
         </Border>
     </ContentView.Content>

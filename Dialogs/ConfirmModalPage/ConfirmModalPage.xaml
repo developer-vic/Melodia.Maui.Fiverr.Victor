@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Dialogs.ConfirmModalPage"
+             BackgroundColor="#80000000"
+             Padding="30"
+             NavigationPage.HasNavigationBar="False">
+    <Border BackgroundColor="#17142b"
+            VerticalOptions="Center"
+            StrokeShape="RoundRectangle 10"
+            Stroke="Black"
+            Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <Label x:Name="TitleLabel"
+                   FontSize="18"
+                   TextColor="White"/>
+
+            <Label x:Name="MessageLabel"
+                   FontSize="18"
+                   Margin="0,10"
+                   TextColor="White"/>
+
+            <HorizontalStackLayout HorizontalOptions="End"
+                                   Spacing="20">
+                <Button x:Name="btnNo"
+                        Text="Non"
+                        Clicked="OnNoClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#76cec5"/>
+
+                <Button x:Name="btnYes"
+                        Text="Oui"
+                        Clicked="OnYesClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="#76cec5"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+</ContentPage>

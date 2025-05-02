@@ -37,7 +37,7 @@ namespace MelodiaTherapy.Helpers
         {
             if (Application.Current != null)
             {
-                await Application.Current.Windows[0].Navigation.PushModalAsync(modal);
+                 await Application.Current.Windows[0].Navigation.PushModalAsync(modal);
             }
         }
 

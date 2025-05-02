@@ -53,11 +53,11 @@ public class MenuDrawerViewModel : BaseViewModel
 				// }
 				break;
 			case "NavigateToStorage":
-				//NavigationService.NavigateTo(typeof(StorageDrawerPage));
+				NavigationService.PushPage(new StoragePage());
 				break;
-			case "NavigateToSaved":
-				//NavigationService.NavigateTo(typeof(SavedPage));
-				break;
+			// case "NavigateToSaved":
+			// 	NavigationService.NavigateTo(typeof(SavedPage));
+			// 	break;
 			case "OpenInstagram":
 				await Browser.OpenAsync(new Uri("https://www.instagram.com/melodiatherapy"), BrowserLaunchMode.External);
 				break;

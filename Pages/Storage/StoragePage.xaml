@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             x:Class="MelodiaTherapy.Pages.StoragePage"
+             Title="Storage"
+             BackgroundColor="#17142b">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20"
+                             Spacing="24">
+
+            <!-- Section: General -->
+            <Label Text="General"
+                   TextColor="White"
+                   FontSize="20"
+                   FontAttributes="Bold"/>
+            <VerticalStackLayout Spacing="10">
+                <views:SettingsTile Title="Used space"
+                                    Description="0.00 GB"
+                                    IconGlyph="hard_drive_icon.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="UsedSpace"/>
+                <views:SettingsTile Title="Explorer le dossier (Debug)"
+                                    Description="Explorer le dossier de stockage"
+                                    IconGlyph="folder_icon.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="ExploreFolder"/>
+            </VerticalStackLayout>
+
+            <!-- Section: Downloads -->
+            <Label Text="Downloads"
+                   TextColor="White"
+                   FontSize="20"
+                   FontAttributes="Bold"/>
+            <VerticalStackLayout Spacing="10">
+                <views:SettingsTile Title="Download center"
+                                    Description="Manage downloads"
+                                    IconGlyph="storage.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="DownloadCenter"/>
+                <views:SettingsTile Title="Download all sounds"
+                                    Description="Currently not available"
+                                    IconGlyph="storage.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="DownloadAll"/>
+                <views:SettingsTile Title="Cancel all sounds"
+                                    Description="Currently not available"
+                                    IconGlyph="cancel.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="CancelAllDownload"/>
+            </VerticalStackLayout>
+
+            <!-- Section: Reset -->
+            <Label Text="Reset"
+                   TextColor="White"
+                   FontSize="20"
+                   FontAttributes="Bold"/>
+            <VerticalStackLayout Spacing="16">
+                <views:SettingsTile Title="Delete files"
+                                    Description="Delete downloaded files"
+                                    IconGlyph="delete.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="DeleteFiles"/>
+                <views:SettingsTile Title="Reset application"
+                                    Description="Reset application"
+                                    IconGlyph="reset.png"
+                                    Command="{Binding MyCommand}"
+                                    CommandParameter="ResetApp"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
