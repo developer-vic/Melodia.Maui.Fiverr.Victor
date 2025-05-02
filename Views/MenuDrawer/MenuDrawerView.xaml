@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             xmlns:fontAwesome="clr-namespace:MelodiaTherapy.Helpers"
+             x:Class="MelodiaTherapy.Views.MenuDrawerView"
+             x:Name="this">
+
+    <Grid BackgroundColor="#17142b">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- App Bar / Header -->
+        <Border StrokeShape="RoundRectangle 20,0,0,0"
+                StrokeThickness="0">
+            <Grid Grid.Row="0"
+                  BackgroundColor="#76cec5"
+                  Padding="16,12,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Text="Menu"
+                       TextColor="White"
+                       FontSize="{OnIdiom Phone=20, Tablet=36, Default=20}"
+                       FontAttributes="Bold"
+                       FontFamily="OpenSansSemibold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <ImageButton Grid.Column="1"
+                             Source="close.png"
+                             Command="{Binding MyCommand}"
+                             CommandParameter="CloseDrawer"/>
+            </Grid>
+        </Border>
+
+        <!-- Content - ScrollView for settings sections-->
+        <ScrollView Grid.Row="1">
+            <StackLayout Spacing="16"
+                         Padding="0,0,0,24">
+
+                <!-- General Section -->
+                <StackLayout>
+                    <Label Text="General"
+                           Margin="16,16,16,8"
+                           TextColor="White"
+                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontAttributes="Bold"/>
+
+                    <views:SettingsTile Title="Language"
+                                        Description="Change Language"
+                                        IconGlyph="web.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="NavigateToLanguage"/>
+
+                    <views:SettingsTile Title="Subscription"
+                                        Description="Premium"
+                                        IconGlyph="medal.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="NavigateToPremium"/>
+
+                    <views:SettingsTile Title="Storage"
+                                        Description="Manage Storage"
+                                        IconGlyph="storage.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="NavigateToStorage"/>
+
+                    <!-- <views:SettingsTile Title="Saved"
+                                        Description="Saved Sessions"
+                                        IconGlyph="session.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="NavigateToSaved"/> -->
+                </StackLayout>
+
+                <!-- Social Section -->
+                <StackLayout>
+                    <Label Text="Social"
+                           Margin="16,16,16,8"
+                           TextColor="White"
+                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontAttributes="Bold"/>
+
+                    <views:SettingsTile Title="Instagram"
+                                        Description="Instagram"
+                                        IconGlyph="instagram.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenInstagram"/>
+
+                    <views:SettingsTile Title="Facebook"
+                                        Description="Facebook"
+                                        IconGlyph="facebook_circle.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenFacebook"/>
+
+                    <views:SettingsTile Title="Contact Us"
+                                        Description="Contact Us"
+                                        IconGlyph="mail_cyan.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="ContactUs"/>
+
+                    <views:SettingsTile Title="Give Feedback"
+                                        Description="Give Feedback"
+                                        IconGlyph="star.png" 
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="RateApp"/>
+                </StackLayout>
+
+                <!-- Support Section -->
+                <StackLayout>
+                    <Label Text="Support"
+                           Margin="16,16,16,8"
+                           TextColor="White"
+                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontAttributes="Bold"/>
+
+                    <views:SettingsTile Title="FAQ"
+                                        Description="Frequently Asked Questions"
+                                        IconGlyph="faq.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenFaq"/>
+
+                    <views:SettingsTile Title="Terms And Conditions"
+                                        Description="Terms Of Use"
+                                        IconGlyph="terms.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenTerms"/>
+
+                    <views:SettingsTile Title="Legal Notices"
+                                        Description="Legal Notices"
+                                        IconGlyph="weigh.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenLegalNotices"/>
+
+                    <views:SettingsTile Title="Privacy Policy"
+                                        Description="Privacy Policy"
+                                        IconGlyph="privacy.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="OpenPrivacyPolicy"/>
+
+                    <views:SettingsTile Title="About"
+                                        Description="{Binding VersionInfo}"
+                                        IconGlyph="about.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="ShowAboutDialog"/>
+
+                    <views:SettingsTile Title="My ID"
+                                        Description="{Binding DeviceIdInfo}"
+                                        IconGlyph="id_badge.png"
+                                        Command="{Binding MyCommand}"
+                                        CommandParameter="CopyId"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="MelodiaTherapy.Pages.StartPage"
+             x:Name="this"
+             BackgroundColor="#17142b">
+       <Grid>
+              <ScrollView>
+                     <VerticalStackLayout Padding="24"
+                                          Spacing="24">
+                            <Grid HorizontalOptions="Fill"
+                                  ColumnDefinitions="*,*">
+                                   <Image Grid.Column="0"
+                                          HorizontalOptions="Start"
+                                          Source="logo.png"
+                                          WidthRequest="80"/>
+                                   <HorizontalStackLayout Grid.Column="1"
+                                                          HorizontalOptions="End">
+                                          <HorizontalStackLayout.GestureRecognizers>
+                                                 <TapGestureRecognizer Tapped="OnOpenMenuClicked"/>
+                                          </HorizontalStackLayout.GestureRecognizers>
+                                          <Image Source="menu2.png"
+                                                 VerticalOptions="Center"/>
+                                          <Label Text="Menu"
+                                                 TextColor="White"
+                                                 FontSize="22"
+                                                 VerticalOptions="Center"/>
+                                   </HorizontalStackLayout>
+                            </Grid>
+
+                            <Label Text="Bienvenue dans votre application de sonothérapie !"
+                                   FontSize="20"
+                                   FontFamily="OpenSansSemibold"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+
+                            <BoxView HeightRequest="1"
+                                     Color="Gray"/>
+
+                            <Label Text="Melodia est une application qui utilise des sons de nature, des musiques relaxantes et vibrations spécifiques pour stimuler votre bien-être.
+&#10;&#10;
+Notre mission est de vous offrir un moment de bonheur, de soulager les symptômes de vos pathologies et de soutenir la vie quotidienne.
+&#10;&#10;
+Laissez-vous guider à travers l'interface de Melodia pour prendre soin de vous !
+&#10;&#10;
+Melodia fait de votre bien-être sa priorité."
+                                   FontSize="16"
+                                   TextColor="White"/>
+
+                            <Border BackgroundColor="#76cec5"
+                                    Padding="0,10"
+                                    HorizontalOptions="Start"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 30">
+                                   <Border.GestureRecognizers>
+                                          <TapGestureRecognizer Tapped="OnStartClicked"/>
+                                   </Border.GestureRecognizers>
+                                   <Grid ColumnDefinitions="*,auto"
+                                         Padding="30,5"
+                                         ColumnSpacing="20">
+                                          <Label Grid.Column="0"
+                                                 Text="Commencer"
+                                                 FontSize="18"
+                                                 HorizontalOptions="Center"/>
+                                          <Image Grid.Column="1"
+                                                 Source="next.png"
+                                                 WidthRequest="25"
+                                                 HorizontalOptions="End"/>
+                                   </Grid>
+                            </Border>
+
+                            <Label Text="Partagez-nous sur les réseaux sociaux"
+                                   FontSize="16"
+                                   Margin="0,30,0,10"
+                                   TextColor="White"
+                                   HorizontalTextAlignment="Center"/>
+
+                            <HorizontalStackLayout HorizontalOptions="Center"
+                                                   Spacing="5">
+                                   <views:SocialCircleView IconGlyph="facebook.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="facebook"/>
+                                   <views:SocialCircleView IconGlyph="messenger.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="messenger"/>
+                                   <views:SocialCircleView IconGlyph="twitter.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="twitter"/>
+                                   <views:SocialCircleView IconGlyph="linkedin.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="linkedin"/>
+                                   <views:SocialCircleView IconGlyph="whatsapp.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="whatsapp"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout HorizontalOptions="Center"
+                                                   Spacing="5">
+                                   <views:SocialCircleView IconGlyph="mail.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="email"/>
+                                   <views:SocialCircleView IconGlyph="copy.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="copy"/>
+                                   <views:SocialCircleView IconGlyph="share.png"
+                                                           Command="{Binding OpenSocialMediaCommand}"
+                                                           CommandParameter="share"/>
+                            </HorizontalStackLayout>
+
+
+                     </VerticalStackLayout>
+              </ScrollView>
+
+
+              <!-- Drawer Container - will be hidden by default, shown when menu button is clicked -->
+              <Grid x:Name="menuDrawerContainer"
+                    BackgroundColor="#80000000"
+                    IsVisible="False">
+                     <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnDrawerClickOut"/>
+                     </Grid.GestureRecognizers>
+
+                     <!-- Menu Drawer - positioned on the right -->
+                     <views:MenuDrawerView x:Name="menuDrawerView"
+                                           HorizontalOptions="End"
+                                           WidthRequest="{OnIdiom Phone=320, Tablet=480, Default=320}"/>
+              </Grid>
+       </Grid>
+</ContentPage>

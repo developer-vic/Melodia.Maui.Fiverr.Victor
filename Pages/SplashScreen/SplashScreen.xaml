@@ -1,0 +1,28 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Pages.SplashScreen"
+             BackgroundColor="#17142b">
+       <StackLayout VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Spacing="20">
+              <Image Source="logo.png"
+                     WidthRequest="300"/>
+              <Label x:Name="ConnectionMessage"
+                     HorizontalOptions="Center"
+                     TextColor="White"
+                     FontSize="18"
+                     FontAttributes="Bold"/>
+              <Image  x:Name="ProgressIndicator"
+                      Source="loading.gif"
+                      WidthRequest="50"
+                      IsAnimationPlaying="True"/>
+              <Button x:Name="RetryButton"
+                      Text="Retry"
+                      IsVisible="False"
+                      Clicked="RetryButton_Clicked"/>
+              <Label x:Name="ErrorBox"
+                     Text="Internet connection required for data download"
+                     TextColor="Red"
+                     IsVisible="False"/>
+       </StackLayout>
+</ContentPage>

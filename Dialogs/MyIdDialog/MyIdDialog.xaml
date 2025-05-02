@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Dialogs.MyIdDialog"
+             BackgroundColor="#80000000"
+             Padding="40,20"
+             Title="MyIdDialog">
+    <Border BackgroundColor="#17142b"
+            Stroke="Black"
+            StrokeShape="RoundRectangle 10"
+            Padding="20"
+            VerticalOptions="Center">
+        <VerticalStackLayout Spacing="20">
+            <Label Text="My ID"
+                   TextColor="White"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="20"/>
+
+            <Label Text="Your ID has been copied to the clipboard"
+                   TextColor="White"
+                   FontSize="15"/>
+
+            <Label Text="Send it to the Melodia Therapy team for help"
+                   TextColor="White"
+                   FontSize="15"/>
+
+            <Border Stroke="#76cec5"
+                    Margin="0,30"
+                    Padding="0,5">
+                <Editor x:Name="idEntry"
+                        Text="Empty"
+                        IsReadOnly="True"
+                        FontSize="18"
+                        CharacterSpacing="2"
+                        TextColor="White"/>
+            </Border>
+
+            <Button Text="Close"
+                    BackgroundColor="Transparent"
+                    TextColor="#76cec5"
+                    FontFamily="OpenSansRegular"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Clicked="OnCloseClicked"/>
+        </VerticalStackLayout>
+    </Border>
+</ContentPage>
