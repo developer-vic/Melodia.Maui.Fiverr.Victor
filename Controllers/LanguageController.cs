@@ -44,28 +44,36 @@ public class LanguageController
 
     public async Task<bool> FetchDataToJsonAsync(string language)
     {
-        var baseUrl = "https://server.melodiatherapy.com/api/mobile/";
-        var argUrl = $"labels/{language}";
-        var url = baseUrl + argUrl;
-
-        using var client = new HttpClient();
-        client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-        client.DefaultRequestHeaders.Add("ClientID", "ClientID");
-        client.DefaultRequestHeaders.Add("ClientSecret", "ClientSecret");
-
-        var response = await client.GetAsync(url);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var json = await response.Content.ReadAsStringAsync();
-            var filePath = Path.Combine(Global.InternalPath, "jsons", "labels.json");
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-            await File.WriteAllTextAsync(filePath, json);
-            Console.WriteLine($"{filePath} downloaded");
-            return true;
+            var baseUrl = "https://server.melodiatherapy.com/api/mobile/";
+            var argUrl = $"labels/{language}";
+            var url = baseUrl + argUrl;
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("ClientID", "ClientID");
+            client.DefaultRequestHeaders.Add("ClientSecret", "ClientSecret");
+
+            // GET request does not need Content-Type
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var filePath = Path.Combine(Global.InternalPath, "jsons", "labels.json");
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+                await File.WriteAllTextAsync(filePath, json);
+                Console.WriteLine($"{filePath} downloaded");
+                return true;
+            }
+            else
+            {
+                throw new Exception($"Failed to download labels.json for {url} {response.StatusCode} : {response.ReasonPhrase}");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            throw new Exception($"Failed to download labels.json for {url} {response.StatusCode} : {response.ReasonPhrase}");
+            Console.WriteLine($"Error fetching data to json: {ex.Message}");
+            return false;
         }
     }
 

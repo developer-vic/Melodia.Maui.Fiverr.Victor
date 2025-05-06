@@ -27,23 +27,41 @@ namespace MelodiaTherapy.Services
 
         public static Task<bool> IsConnectedToWifiAsync()
         {
-            return Task.FromResult(NetworkInterface.GetAllNetworkInterfaces()
-                .Any(ni =>
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 &&
-                    ni.OperationalStatus == OperationalStatus.Up));
+            try
+            {
+                return Task.FromResult(NetworkInterface.GetAllNetworkInterfaces()
+                    .Any(ni =>
+                        ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 &&
+                        ni.OperationalStatus == OperationalStatus.Up));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                Console.WriteLine($"Error checking WiFi connection: {ex.Message}");
+            }
+            return Task.FromResult(false);
         }
 
         public static Task<bool> IsConnectedToMobileDataAsync()
         {
-            return Task.FromResult(NetworkInterface.GetAllNetworkInterfaces()
-                .Any(ni =>
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Wwanpp ||
-                    ni.NetworkInterfaceType == NetworkInterfaceType.Wwanpp2 &&
-                    ni.OperationalStatus == OperationalStatus.Up));
+            try
+            {
+                return Task.FromResult(NetworkInterface.GetAllNetworkInterfaces()
+                    .Any(ni =>
+                        ni.NetworkInterfaceType == NetworkInterfaceType.Wwanpp ||
+                        ni.NetworkInterfaceType == NetworkInterfaceType.Wwanpp2 &&
+                        ni.OperationalStatus == OperationalStatus.Up));
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed
+                Console.WriteLine($"Error checking mobile data connection: {ex.Message}");
+            }
+            return Task.FromResult(false);
         }
 
         internal static async Task<bool> IsConnectedAsync()
-        {   
+        {
             var isConnected = await IsConnectedToInternetAsync();
             if (!isConnected)
             {

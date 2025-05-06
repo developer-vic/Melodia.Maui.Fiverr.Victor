@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MelodiaTherapy.Models;
-using MelodiaTherapy.Services; 
+using MelodiaTherapy.Services;
 using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Controllers;
 
@@ -12,7 +12,7 @@ public partial class PaywallPage : ContentPage
 	public PaywallPage()
 	{
 		InitializeComponent();
-		//BindingContext = new PaywallViewModel();
+		BindingContext = new PaywallViewModel();
 	}
 	protected override async void OnAppearing()
 	{
@@ -29,12 +29,12 @@ public class PaywallViewModel : BaseViewModel
 	private readonly LanguageController l = new LanguageController();
 
 	private ObservableCollection<PackageViewModel> _displayPackages = [];
-	private PackageViewModel _selectedPackage;
+	private PackageViewModel _selectedPackage = new();
 	private bool _isLoading;
 	private bool _isConnected;
-	private string _promoCode;
-	private Dictionary<string, string> _languageResources;
-	private ObservableCollection<string> _features;
+	private string _promoCode = string.Empty;
+	private Dictionary<string, string> _languageResources= new();
+	private ObservableCollection<string> _features = new();
 	private double _discount;
 
 	public ObservableCollection<PackageViewModel> DisplayPackages
@@ -144,6 +144,47 @@ public class PaywallViewModel : BaseViewModel
 	{
 		if (!IsConnected)
 			return;
+
+		// DEOMO DATA 
+		var packageViewModelsDemo = new List<PackageViewModel>
+        {
+            new PackageViewModel
+            {
+                Package = new Package
+                {
+                    Identifier = "P1",
+                    OfferingIdentifier = "O1",
+                    Price = 4.99,
+                    CurrencyCode = "USD",
+                    SubscriptionPeriod = "P1M",
+                    PriceFormatted = "$4.99"
+                },
+                Description = "Monthly Subscription",
+                IsSelected = true,
+                CurrencyCode = "USD"
+            },
+            new PackageViewModel
+            {
+                Package = new Package
+                {
+                    Identifier = "P2",
+                    OfferingIdentifier = "O1",
+                    Price = 49.99,
+                    CurrencyCode = "USD",
+                    SubscriptionPeriod = "P3M",
+                    PriceFormatted = "$49.99"
+                },
+                Description = "Annual Subscription",
+                IsSelected = false,
+                CurrencyCode = "USD",
+                Discount = 9.89,
+                IsPopular = true
+            }
+        };
+
+		DisplayPackages = new ObservableCollection<PackageViewModel>(packageViewModelsDemo);
+		SelectedPackage = DisplayPackages[0]; return; //TODO remove this line
+													  // Clear previous CODES
 
 		try
 		{

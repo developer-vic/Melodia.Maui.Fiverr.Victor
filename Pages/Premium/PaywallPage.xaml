@@ -4,13 +4,11 @@
              x:Class="MelodiaTherapy.Pages.PaywallPage"
              x:Name="mainPage"
              BackgroundColor="#17142b"
-             Title="PaywallPage">
+             Title="">
     <ScrollView>
-        <VerticalStackLayout>
-
+        <VerticalStackLayout Padding="20">
             <!-- IsVisible="{Binding IsConnected}" -->
-            <Grid VerticalOptions="Start"
-                  Padding="20,5,20,20">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -27,26 +25,24 @@
                 <StackLayout Grid.Row="0"
                              HorizontalOptions="Center">
                     <HorizontalStackLayout HorizontalOptions="Center">
-                        <Label Text="Melodia Therapy"
+                        <Label Text="Melodia Therapy "
                                TextColor="White"
                                FontSize="23"
-                               CharacterSpacing="1.5"
-                               LineHeight="1.5"/>
+                               CharacterSpacing="1.5"/>
                         <Label Text="Premium"
                                TextColor="White"
                                FontSize="23"
                                CharacterSpacing="1.5"
-                               LineHeight="1.5"
                                BackgroundColor="#76cec5"/>
                     </HorizontalStackLayout>
 
-                    <Label Text="{Binding LanguageResources[Votre portail vers le Bien-être]}"
+                    <Label Text="Your gateway to well-being"
                            TextColor="White"
                            FontSize="19"
                            HorizontalOptions="Center"
                            Margin="0,10,0,0"/>
 
-                    <Label Text="{Binding LanguageResources[Dites adieu au stress, à l'anxiété et aux douleurs chroniques et bien d'autres encore.]}"
+                    <Label Text="Say goodbye to stress, anxiety, chronic pain, and much more."
                            TextColor="White"
                            FontSize="16"
                            LineHeight="1.2"
@@ -59,42 +55,26 @@
                 <CollectionView Grid.Row="1"
                                 ItemsSource="{Binding DisplayPackages}"
                                 Margin="0,30,0,0"
-                                SelectionMode="Single"
+                                SelectionMode="None"
                                 SelectedItem="{Binding SelectedPackage}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border Stroke="#76cec5"
-                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectedBackgroundConverter}}"
-                                    Padding="10"
-                                    StrokeShape="RoundRectangle 10"
-                                    Margin="0,0,0,20">
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding mainPage.SelectPackageCommand}"
-                                                          CommandParameter="{Binding}"/>
-                                </Border.GestureRecognizers>
+                            <Grid>
+                                <Border Stroke="#76cec5"
+                                        BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectedBackgroundConverter}}"
+                                        Padding="10,20"
+                                        StrokeShape="RoundRectangle 10"
+                                        Margin="0,0,0,20">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding mainPage.SelectPackageCommand}"
+                                                              CommandParameter="{Binding}"/>
+                                    </Border.GestureRecognizers>
 
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-
-                                    <!-- Package Label for "Popular" only on the last item -->
-                                    <Border Grid.Row="0"
-                                            HorizontalOptions="Center"
-                                            VerticalOptions="Start"
-                                            BackgroundColor="#76cec5"
-                                            Padding="5,0"
-                                            IsVisible="{Binding IsPopular}">
-                                        <Label Text="{Binding mainPage.LanguageResources[Populaire]}"
-                                               TextColor="White"
-                                               FontSize="16"/>
-                                    </Border>
-
-                                    <StackLayout Grid.Row="1">
+                                    <StackLayout Spacing="10">
                                         <Label Text="{Binding Description}"
                                                TextColor="White"
-                                               FontSize="18"
+                                               FontFamily="OpenSansSemibold"
+                                               FontSize="22"
                                                FontAttributes="Bold"/>
 
                                         <HorizontalStackLayout>
@@ -107,26 +87,41 @@
 
                                             <Label Text="{Binding PriceFormatted}"
                                                    TextColor="White"
+                                                   FontFamily="OpenSansSemibold"
                                                    FontSize="30"
                                                    FontAttributes="Bold"
                                                    Margin="15,0"/>
 
-                                            <Border BackgroundColor="#FFBCBC"
-                                                    Stroke="White"
+                                            <Border BackgroundColor="#FFEA8383"
+                                                    Stroke="Transparent"
                                                     StrokeShape="RoundRectangle 8"
-                                                    Padding="5,0"
+                                                    Padding="2,0"
                                                     IsVisible="{Binding IsPopular}">
                                                 <Label Text="{Binding DiscountText}"
+                                                       FontSize="16"
+                                                       VerticalOptions="Center"
                                                        TextColor="White"/>
                                             </Border>
                                         </HorizontalStackLayout>
 
-                                        <Label Text="{Binding mainPage.LanguageResources[Accès complet]}"
+                                        <Label Text="Full access"
                                                TextColor="White"
                                                FontSize="16"/>
                                     </StackLayout>
-                                </Grid>
-                            </Border>
+                                </Border>
+                                <!-- Package Label for "Popular" only on the last item -->
+                                <Border HorizontalOptions="Center"
+                                        VerticalOptions="Start"
+                                        Stroke="Transparent"
+                                        BackgroundColor="#76cec5"
+                                        Margin="0,-10,0,0"
+                                        Padding="5,0"
+                                        IsVisible="{Binding IsPopular}">
+                                    <Label Text="Popular"
+                                           TextColor="White"
+                                           FontSize="20"/>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -134,8 +129,7 @@
                 <!-- Features List -->
                 <StackLayout Grid.Row="2"
                              HorizontalOptions="Center"
-                             WidthRequest="{Binding Path=Width, Source={x:Reference mainPage}, Converter={StaticResource PercentageConverter}, ConverterParameter=0.8}"
-                             Margin="0,5,0,0">
+                             Margin="20,5,0,0">
                     <CollectionView ItemsSource="{Binding Features}"
                                     SelectionMode="None">
                         <CollectionView.ItemTemplate>
@@ -159,43 +153,45 @@
 
                 <!-- Promo Code Section -->
                 <StackLayout Grid.Row="3"
-                             Margin="0,15,0,0"
-                             HorizontalOptions="Center">
-                    <Label Text="{Binding LanguageResources[Avez-vous un code promo?]}"
+                             Margin="0,15,0,0">
+                    <Label Text="Do you have a promo code?"
                            TextColor="White"
                            FontSize="16"
                            HorizontalOptions="Center"/>
 
-                    <HorizontalStackLayout HorizontalOptions="Center"
-                                           Margin="0,10,0,0">
-                        <Border StrokeShape="RoundRectangle 10,10,10,10"
+                    <Grid HorizontalOptions="Fill"
+                          ColumnDefinitions="*,auto"
+                          Margin="20,10">
+                        <Border Grid.Column="0"
+                                StrokeShape="RoundRectangle 10,10,10,10"
                                 Stroke="#76cec5"
-                                WidthRequest="{Binding Path=Width, Source={x:Reference mainPage}, Converter={StaticResource PercentageConverter}, ConverterParameter=0.6}"
+                                Padding="10,0"
                                 HeightRequest="50">
                             <Entry Text="{Binding PromoCode}"
                                    TextColor="White"
-                                   Placeholder="{Binding LanguageResources[CODE PROMO]}"
                                    PlaceholderColor="White"
-                                   HorizontalTextAlignment="Center"
+                                   Placeholder="PROMO CODE"
                                    VerticalOptions="Center"/>
                         </Border>
 
-                        <Button Text="{Binding LanguageResources[Appliquer]}"
+                        <Button Grid.Column="1"
+                                Text="Apply"
                                 Command="{Binding ApplyPromoCodeCommand}"
                                 TextColor="White"
                                 FontAttributes="Bold"
+                                FontSize="20"
                                 BackgroundColor="#76cec5"
-                                CornerRadius="30"
+                                CornerRadius="25"
                                 Margin="10,0,0,0"
-                                Padding="10"/>
-                    </HorizontalStackLayout>
+                                Padding="20,10"/>
+                    </Grid>
                 </StackLayout>
 
                 <!-- Terms and Conditions -->
                 <HorizontalStackLayout Grid.Row="4"
                                        HorizontalOptions="Center"
                                        Margin="0,15,0,0">
-                    <Label Text="{Binding LanguageResources[Conditions d-utilisation]}"
+                    <Label Text="Terms of use"
                            TextColor="#76cec5"
                            TextDecorations="Underline">
                         <Label.GestureRecognizers>
@@ -206,7 +202,7 @@
                     <Label Text=" - "
                            TextColor="#76cec5"/>
 
-                    <Label Text="{Binding LanguageResources[Politique de confidentialité]}"
+                    <Label Text="Privacy policy"
                            TextColor="#76cec5"
                            TextDecorations="Underline">
                         <Label.GestureRecognizers>
