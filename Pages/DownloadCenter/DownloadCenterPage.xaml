@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Pages.DownloadCenterPage"
+             Title="Download Center"
+             BackgroundColor="#17142b"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             xmlns:tabs="http://sharpnado.com">
+
+    <Grid RowDefinitions="Auto,*">
+        <tabs:TabHostView x:Name="TabHost"
+                          Grid.Row="0"
+                          HeightRequest="50"
+                          CornerRadius="0"
+                          HorizontalOptions="Fill"
+                          VerticalOptions="Start"
+                          BackgroundColor="#76cec5"
+                          IsSegmented="True"
+                          SegmentedHasSeparator="False"
+                          SegmentedOutlineColor="White"
+                          SelectedIndex="0"
+                          TabType="Fixed">
+            <tabs:TabHostView.Tabs>
+                <tabs:SegmentedTabItem Label="Ambiances"
+                                       Padding="5,0,0,0"
+                                       HorizontalOptions="Center"
+                                       SelectedLabelColor="Purple"
+                                       SelectedTabColor="Transparent"/>
+                <tabs:SegmentedTabItem Label="Themes"
+                                       SelectedLabelColor="Purple"
+                                       SelectedTabColor="Transparent"/>
+                <tabs:SegmentedTabItem Label="Treatments"
+                                       Padding="0,0,5,0"
+                                       SelectedLabelColor="Purple"
+                                       SelectedTabColor="Transparent"/>
+            </tabs:TabHostView.Tabs>
+        </tabs:TabHostView>
+
+        <tabs:ViewSwitcher x:Name="switcher"
+                           Grid.Row="1"
+                           Margin="16,0"
+                           Animate="True"
+                           SelectedIndex="{Binding Source={x:Reference TabHost}, Path=SelectedIndex, Mode=OneWay}">
+            <CollectionView x:Name="AmbiancesCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <views:SoundDownloadItem Name="{Binding Name}"
+                                                 SongGuid="{Binding SongGuid}"
+                                                 Duration="{Binding Duration}"
+                                                 Type="{Binding Type}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView x:Name="ThemesCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <views:SoundDownloadItem Name="{Binding Name}"
+                                                 SongGuid="{Binding SongGuid}"
+                                                 Duration="{Binding Duration}"
+                                                 Type="{Binding Type}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <VerticalStackLayout>
+                <tabs:TabHostView x:Name="treatmentTabHost"
+                                  Grid.Row="0"
+                                  HeightRequest="50"
+                                  CornerRadius="0"
+                                  HorizontalOptions="Fill"
+                                  VerticalOptions="Start"
+                                  BackgroundColor="#17142b"
+                                  IsSegmented="False"
+                                  SegmentedHasSeparator="True"
+                                  SegmentedOutlineColor="White"
+                                  SelectedIndex="0"
+                                  TabType="Fixed">
+                    <tabs:TabHostView.Tabs>
+                        <tabs:SegmentedTabItem Label="Isochrones"
+                                               Padding="5,0,0,0"
+                                               HorizontalOptions="Center"
+                                               SelectedLabelColor="#76cec5"
+                                               SelectedTabColor="Transparent"/>
+                        <tabs:SegmentedTabItem Label="Binaurales"
+                                               Padding="0,0,5,0"
+                                               SelectedLabelColor="#76cec5"
+                                               SelectedTabColor="Transparent"/>
+                    </tabs:TabHostView.Tabs>
+                </tabs:TabHostView>
+                <tabs:ViewSwitcher x:Name="switcherTreatment"
+                                   Grid.Row="1"
+                                   Animate="True"
+                                   SelectedIndex="{Binding Source={x:Reference treatmentTabHost}, Path=SelectedIndex, Mode=OneWay}">
+                    <CollectionView x:Name="IsochronesCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <views:SoundDownloadItem Name="{Binding Name}"
+                                                         SongGuid="{Binding SongGuid}"
+                                                         Duration="{Binding Duration}"
+                                                         Type="{Binding Type}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <CollectionView x:Name="BinauralesCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <views:SoundDownloadItem Name="{Binding Name}"
+                                                         SongGuid="{Binding SongGuid}"
+                                                         Duration="{Binding Duration}"
+                                                         Type="{Binding Type}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </tabs:ViewSwitcher>
+            </VerticalStackLayout>
+
+        </tabs:ViewSwitcher>
+    </Grid>
+
+</ContentPage>

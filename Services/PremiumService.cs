@@ -7,6 +7,8 @@ namespace MelodiaTherapy.Services
 {
     public static class PremiumService
     {
+        internal static bool IsEntitlementActive = false;
+
         public static Task CheckPremium()
         {
             //TODO Simulate check

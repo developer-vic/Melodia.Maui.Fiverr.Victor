@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Pages.PremiumPage"
+             BackgroundColor="#17142b"
+             xmlns:converters="clr-namespace:MelodiaTherapy.Helpers"
+             Title="{Binding PremiumTitle}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToInverseConverter x:Key="BooleanToInverseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20"
+                             Spacing="20">
+
+            <!-- Conditional UI shown with DataTriggers -->
+            <Label Text="{Binding TrialStatusText}"
+                   FontSize="25"
+                   TextColor="Green"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold"/>
+
+            <Label Text="{Binding TrialDaysLeftText}"
+                   FontSize="18"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+
+            <!-- Only visible if NOT trial -->
+            <StackLayout x:Name="PremiumInfoLayout"
+                         IsVisible="{Binding IsTrial, Converter={StaticResource InverseBoolConverter}}">
+
+                <Label Text="{Binding SubscriptionStartDateText}"
+                       FontSize="18"
+                       TextColor="White"/>
+                <Label Text="{Binding SubscriptionEndDateText}"
+                       FontSize="18"
+                       TextColor="White"/>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Center">
+                    <Label Text="{Binding TermsText}"
+                           TextDecorations="Underline"
+                           TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenTermsCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text=" - "
+                           TextColor="White"/>
+                    <Label Text="{Binding PrivacyText}"
+                           TextDecorations="Underline"
+                           TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenPrivacyCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

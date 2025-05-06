@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Pages.PaywallPage"
+             x:Name="mainPage"
+             BackgroundColor="#17142b"
+             Title="PaywallPage">
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <!-- IsVisible="{Binding IsConnected}" -->
+            <Grid VerticalOptions="Start"
+                  Padding="20,5,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <StackLayout Grid.Row="0"
+                             HorizontalOptions="Center">
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="Melodia Therapy"
+                               TextColor="White"
+                               FontSize="23"
+                               CharacterSpacing="1.5"
+                               LineHeight="1.5"/>
+                        <Label Text="Premium"
+                               TextColor="White"
+                               FontSize="23"
+                               CharacterSpacing="1.5"
+                               LineHeight="1.5"
+                               BackgroundColor="#76cec5"/>
+                    </HorizontalStackLayout>
+
+                    <Label Text="{Binding LanguageResources[Votre portail vers le Bien-être]}"
+                           TextColor="White"
+                           FontSize="19"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,0"/>
+
+                    <Label Text="{Binding LanguageResources[Dites adieu au stress, à l'anxiété et aux douleurs chroniques et bien d'autres encore.]}"
+                           TextColor="White"
+                           FontSize="16"
+                           LineHeight="1.2"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Margin="0,25,0,0"/>
+                </StackLayout>
+
+                <!-- Packages Collection -->
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding DisplayPackages}"
+                                Margin="0,30,0,0"
+                                SelectionMode="Single"
+                                SelectedItem="{Binding SelectedPackage}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Stroke="#76cec5"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectedBackgroundConverter}}"
+                                    Padding="10"
+                                    StrokeShape="RoundRectangle 10"
+                                    Margin="0,0,0,20">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding mainPage.SelectPackageCommand}"
+                                                          CommandParameter="{Binding}"/>
+                                </Border.GestureRecognizers>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Package Label for "Popular" only on the last item -->
+                                    <Border Grid.Row="0"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Start"
+                                            BackgroundColor="#76cec5"
+                                            Padding="5,0"
+                                            IsVisible="{Binding IsPopular}">
+                                        <Label Text="{Binding mainPage.LanguageResources[Populaire]}"
+                                               TextColor="White"
+                                               FontSize="16"/>
+                                    </Border>
+
+                                    <StackLayout Grid.Row="1">
+                                        <Label Text="{Binding Description}"
+                                               TextColor="White"
+                                               FontSize="18"
+                                               FontAttributes="Bold"/>
+
+                                        <HorizontalStackLayout>
+                                            <Label Text="{Binding OldPriceFormatted}"
+                                                   TextColor="White"
+                                                   TextDecorations="Strikethrough"
+                                                   FontSize="25"
+                                                   FontAttributes="Bold"
+                                                   IsVisible="{Binding HasDiscount}"/>
+
+                                            <Label Text="{Binding PriceFormatted}"
+                                                   TextColor="White"
+                                                   FontSize="30"
+                                                   FontAttributes="Bold"
+                                                   Margin="15,0"/>
+
+                                            <Border BackgroundColor="#FFBCBC"
+                                                    Stroke="White"
+                                                    StrokeShape="RoundRectangle 8"
+                                                    Padding="5,0"
+                                                    IsVisible="{Binding IsPopular}">
+                                                <Label Text="{Binding DiscountText}"
+                                                       TextColor="White"/>
+                                            </Border>
+                                        </HorizontalStackLayout>
+
+                                        <Label Text="{Binding mainPage.LanguageResources[Accès complet]}"
+                                               TextColor="White"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Features List -->
+                <StackLayout Grid.Row="2"
+                             HorizontalOptions="Center"
+                             WidthRequest="{Binding Path=Width, Source={x:Reference mainPage}, Converter={StaticResource PercentageConverter}, ConverterParameter=0.8}"
+                             Margin="0,5,0,0">
+                    <CollectionView ItemsSource="{Binding Features}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout HorizontalOptions="Center">
+                                    <Image Source="check_circle_outline.png"
+                                           HeightRequest="28"
+                                           WidthRequest="28"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Start"/>
+                                    <Label Text="{Binding}"
+                                           TextColor="White"
+                                           Margin="5,0,0,0"
+                                           FontSize="14"
+                                           VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- Promo Code Section -->
+                <StackLayout Grid.Row="3"
+                             Margin="0,15,0,0"
+                             HorizontalOptions="Center">
+                    <Label Text="{Binding LanguageResources[Avez-vous un code promo?]}"
+                           TextColor="White"
+                           FontSize="16"
+                           HorizontalOptions="Center"/>
+
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Margin="0,10,0,0">
+                        <Border StrokeShape="RoundRectangle 10,10,10,10"
+                                Stroke="#76cec5"
+                                WidthRequest="{Binding Path=Width, Source={x:Reference mainPage}, Converter={StaticResource PercentageConverter}, ConverterParameter=0.6}"
+                                HeightRequest="50">
+                            <Entry Text="{Binding PromoCode}"
+                                   TextColor="White"
+                                   Placeholder="{Binding LanguageResources[CODE PROMO]}"
+                                   PlaceholderColor="White"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <Button Text="{Binding LanguageResources[Appliquer]}"
+                                Command="{Binding ApplyPromoCodeCommand}"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                BackgroundColor="#76cec5"
+                                CornerRadius="30"
+                                Margin="10,0,0,0"
+                                Padding="10"/>
+                    </HorizontalStackLayout>
+                </StackLayout>
+
+                <!-- Terms and Conditions -->
+                <HorizontalStackLayout Grid.Row="4"
+                                       HorizontalOptions="Center"
+                                       Margin="0,15,0,0">
+                    <Label Text="{Binding LanguageResources[Conditions d-utilisation]}"
+                           TextColor="#76cec5"
+                           TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenTermsCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text=" - "
+                           TextColor="#76cec5"/>
+
+                    <Label Text="{Binding LanguageResources[Politique de confidentialité]}"
+                           TextColor="#76cec5"
+                           TextDecorations="Underline">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenPrivacyCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </Grid>
+
+            <!-- No Internet Connection View -->
+            <!-- <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 IsVisible="{Binding IsNotConnected}">
+                <Image Source="wifi_off.png"
+                       HeightRequest="50"
+                       WidthRequest="50"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="{Binding LanguageResources[Pas de connexion internet]}"
+                       TextColor="White"
+                       Margin="0,10,0,0"
+                       HorizontalOptions="Center"/>
+
+                <Button Text="{Binding LanguageResources[Réessayer]}"
+                        Command="{Binding RetryConnectionCommand}"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        BackgroundColor="#76cec5"
+                        CornerRadius="30"
+                        Margin="0,10,0,0"
+                        Padding="10"/>
+            </VerticalStackLayout> -->
+
+            <!-- Loading Overlay -->
+            <!-- <Grid IsVisible="{Binding IsLoading}"
+                  BackgroundColor="#80000000"
+                  VerticalOptions="FillAndExpand"
+                  HorizontalOptions="FillAndExpand">
+                <ActivityIndicator IsRunning="True"
+                                   Color="#76cec5"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+            </Grid> -->
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

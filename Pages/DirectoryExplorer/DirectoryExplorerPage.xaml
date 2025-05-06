@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Pages.DirectoryExplorerPage"
+             BackgroundColor="#17142b"
+             Title="DirectoryExplorerPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh"
+                     IconImageSource="refresh.png"
+                     Clicked="OnRefreshClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10"
+                             Spacing="10">
+            <Label x:Name="StatsLabel"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="16"
+                   IsVisible="False"/>
+
+            <CollectionView x:Name="DirectoryListView"
+                            ItemsSource="{Binding DirectoryContents}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="7"
+                              ColumnSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{Binding Icon}"
+                                   WidthRequest="24"
+                                   HeightRequest="24"/>
+                            <Label Grid.Column="1"
+                                   Text="{Binding Path}"
+                                   FontSize="15"
+                                   TextColor="White"/>
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnItemTapped"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

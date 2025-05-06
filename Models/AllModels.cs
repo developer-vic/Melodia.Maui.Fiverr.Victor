@@ -60,4 +60,28 @@ namespace MelodiaTherapy.Models
         public string Name { get; set; }
         //public string Description { get; set; }
     }
+
+    public class FileItem
+    {
+        public string Path { get; set; }
+        public bool IsDirectory { get; set; }
+        public string Icon { get; set; }
+    }
+    public class SoundDownloadItemModel
+    {
+        public string Name { get; set; }
+        public string SongGuid { get; set; }
+        public string Duration { get; set; }
+        public DataType Type { get; set; }
+    }
+
+    public enum DataType
+    {
+        Ambiances = 1,
+        Themes = 2,
+        Isochrones = 3,
+        Binaurales = 4,
+        Treatments = 5
+    }
+
 }

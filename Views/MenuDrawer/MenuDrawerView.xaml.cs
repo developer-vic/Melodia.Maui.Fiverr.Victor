@@ -42,15 +42,10 @@ public class MenuDrawerViewModel : BaseViewModel
 				NavigationService.PushPage(new LanguagePage());
 				break;
 			case "NavigateToPremium":
-				// await _premiumService.CheckPremiumStatus();
-				// if (_premiumService.IsEntitlementActive)
-				// {
-				// 	NavigationService.NavigateTo(typeof(PremiumPage));
-				// }
-				// else
-				// {
-				// 	NavigationService.NavigateTo(typeof(PaywallPage));
-				// }
+				if (PremiumService.IsEntitlementActive)
+					NavigationService.PushPage(new PremiumPage());
+				else
+					NavigationService.PushPage(new PaywallPage());
 				break;
 			case "NavigateToStorage":
 				NavigationService.PushPage(new StoragePage());

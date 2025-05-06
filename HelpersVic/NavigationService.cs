@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
+using MelodiaTherapy.Pages;
 
 namespace MelodiaTherapy.Helpers
 {
@@ -32,12 +33,11 @@ namespace MelodiaTherapy.Helpers
                 }
             }
         }
-
         internal async static void OpenDialog(ContentPage modal)
         {
             if (Application.Current != null)
             {
-                 await Application.Current.Windows[0].Navigation.PushModalAsync(modal);
+                await Application.Current.Windows[0].Navigation.PushModalAsync(modal);
             }
         }
 
@@ -48,5 +48,36 @@ namespace MelodiaTherapy.Helpers
             await snackbar.Show();
         }
 
+        internal static async Task GoBackAsync()
+        {
+            if (Application.Current?.Windows?.Count > 0)
+            {
+                var mainPage = Application.Current?.Windows[0].Page;
+                if (mainPage is not null)
+                {
+                    await mainPage.Navigation.PopAsync();
+                }
+            }
+        }
+
+        internal static async Task DisplayAlert(string title, string message, string OK)
+        {
+            if (Application.Current?.Windows?.Count > 0)
+            {
+                var mainPage = Application.Current?.Windows[0].Page;
+                if (mainPage is not null)
+                {
+                    await mainPage.DisplayAlert(title, message, OK);
+                }
+            }
+        }
+
+        internal static void NavigateToStartPageAsync()
+        {
+            if (Application.Current != null)
+            {
+                Application.Current.Windows[0].Page = new NavigationPage(new StartPage());
+            }
+        }
     }
 }

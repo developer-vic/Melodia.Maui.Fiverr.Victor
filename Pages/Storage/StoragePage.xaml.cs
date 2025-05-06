@@ -51,22 +51,22 @@ internal class StoragePageVM
 
 	private void OnUsedSpaceClicked()
 	{
-		// Show used space logic
+		// used space logic
 	}
 
 	private void OnExploreFolderClicked()
 	{
-		//await NavigationService.PushPage(new DirectoryExplorerPage());
+		NavigationService.PushPage(new DirectoryExplorerPage());
 	}
 
 	private void OnDownloadCenterClicked()
 	{
-		//await NavigationService.PushPage(new DownloadCenterPage());
+		NavigationService.PushPage(new DownloadCenterPage());
 	}
 
 	private void OnDownloadAllClicked()
 	{
-		//await NavigationService.PushPage(new DownloadAllPage());
+		// download all logic 
 	}
 
 	private async void OnCancelAllDownloadClicked()

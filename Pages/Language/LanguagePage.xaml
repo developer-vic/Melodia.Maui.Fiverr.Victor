@@ -3,77 +3,84 @@
              x:Class="MelodiaTherapy.Pages.LanguagePage"
              xmlns:model="clr-namespace:MelodiaTherapy.Pages"
              x:DataType="model:LanguagePageVM"
-             BackgroundColor="Black">
+             BackgroundColor="#17142b">
 
-       <ScrollView>
-              <VerticalStackLayout Padding="20"
-                                   Spacing="24"
-                                   VerticalOptions="Center">
-                     <Image Source="logo.png"
-                            WidthRequest="300"
-                            HorizontalOptions="Center"/>
+       <Grid>
+              <Image Source="bg.png"
+                     Opacity="0.06"
+                     Scale="2"
+                     VerticalOptions="Fill"/>
 
-                     <Label Text="Welcome to your sound therapy application"
-                            HorizontalTextAlignment="Center"
-                            TextColor="White"
-                            FontAttributes="Bold"
-                            FontFamily="OpenSansSemibold"
-                            FontSize="30"/>
+              <ScrollView>
+                     <VerticalStackLayout Padding="20"
+                                          Spacing="24"
+                                          VerticalOptions="Center">
+                            <Image Source="logo.png"
+                                   WidthRequest="300"
+                                   HorizontalOptions="Center"/>
 
-                     <BoxView HeightRequest="1"
-                              WidthRequest="200"
-                              BackgroundColor="White"
-                              Opacity="0.25"
-                              HorizontalOptions="Center"/>
+                            <Label Text="Welcome to your sound therapy application"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontFamily="OpenSansSemibold"
+                                   FontSize="30"/>
 
-                     <Label Text="Let us guide you through the Melodia interface to take care of yourself"
-                            HorizontalTextAlignment="Center"
-                            TextColor="White"
-                            FontSize="15"
-                            Opacity="0.5"/>
+                            <BoxView HeightRequest="1"
+                                     WidthRequest="200"
+                                     BackgroundColor="White"
+                                     Opacity="0.25"
+                                     HorizontalOptions="Center"/>
 
-                     <Image  IsVisible="{Binding ShowLoadingOverlay}"
-                             Source="loading.gif"
-                             WidthRequest="50"
-                             IsAnimationPlaying="True"/>
+                            <Label Text="Let us guide you through the Melodia interface to take care of yourself"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="White"
+                                   FontSize="15"
+                                   Opacity="0.5"/>
 
-                     <Border Margin="0,5,0,15"
-                             Stroke="#76cec5"
-                             StrokeThickness="1"
-                             BackgroundColor="Transparent"
-                             StrokeShape="RoundRectangle 5"
-                             Padding="10,12">
-                            <Border.GestureRecognizers>
-                                   <TapGestureRecognizer Command="{Binding PickerCommand}"
-                                                         CommandParameter="{x:Reference LangPicker}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="*,auto">
-                                   <Label Grid.Column="0"
-                                          Text="{Binding SelectedLanguage.Name, Mode=TwoWay}"
-                                          TextColor="#76cec5"
-                                          FontSize="18"
-                                          HorizontalOptions="Fill"
-                                          Margin="5,0"/>
-                                   <Picker x:Name="LangPicker"
-                                           Title="Langue"
-                                           ItemsSource="{Binding Languages}"
-                                           ItemDisplayBinding="{Binding Name}"
-                                           SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
-                                           IsVisible="False"/>
-                                   <Image Grid.Column="1"
-                                          Source="dropdown.png"/>
-                            </Grid>
-                     </Border>
+                            <Image  IsVisible="{Binding ShowLoadingOverlay}"
+                                    Source="loading.gif"
+                                    WidthRequest="50"
+                                    IsAnimationPlaying="True"/>
 
-                     <Button Text="Start"
-                             CornerRadius="28"
-                             Padding="0,15"
-                             Clicked="OnStartClicked"
-                             BackgroundColor="#76cec5"
-                             TextColor="White"
-                             FontFamily="OpenSansSemibold"
-                             FontSize="18"/>
-              </VerticalStackLayout>
-       </ScrollView>
+                            <Border Margin="0,5,0,15"
+                                    Stroke="#76cec5"
+                                    StrokeThickness="1"
+                                    BackgroundColor="Transparent"
+                                    StrokeShape="RoundRectangle 5"
+                                    Padding="10,12">
+                                   <Border.GestureRecognizers>
+                                          <TapGestureRecognizer Command="{Binding PickerCommand}"
+                                                                CommandParameter="{x:Reference LangPicker}"/>
+                                   </Border.GestureRecognizers>
+                                   <Grid ColumnDefinitions="*,auto">
+                                          <Label Grid.Column="0"
+                                                 Text="{Binding SelectedLanguage.Name, Mode=TwoWay}"
+                                                 TextColor="#76cec5"
+                                                 FontSize="18"
+                                                 HorizontalOptions="Fill"
+                                                 Margin="5,0"/>
+                                          <Picker x:Name="LangPicker"
+                                                  Title="Langue"
+                                                  ItemsSource="{Binding Languages}"
+                                                  ItemDisplayBinding="{Binding Name}"
+                                                  SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                                                  IsVisible="False"/>
+                                          <Image Grid.Column="1"
+                                                 Source="dropdown.png"/>
+                                   </Grid>
+                            </Border>
+
+                            <Button Text="Start"
+                                    CornerRadius="28"
+                                    Padding="0,15"
+                                    Clicked="OnStartClicked"
+                                    BackgroundColor="#76cec5"
+                                    TextColor="White"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="18"/>
+                     </VerticalStackLayout>
+              </ScrollView>
+       </Grid>
 
 </ContentPage>
