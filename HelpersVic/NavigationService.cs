@@ -79,5 +79,13 @@ namespace MelodiaTherapy.Helpers
                 Application.Current.Windows[0].Page = new NavigationPage(new StartPage());
             }
         }
+
+        internal static void SetAsMainPage(ContentPage mainContentPage)
+        {
+            if (Application.Current != null)
+            {
+                Application.Current.Windows[0].Page = new NavigationPage(mainContentPage);
+            }
+        }
     }
 }

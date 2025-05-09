@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MelodiaTherapy.Models;
 
 namespace MelodiaTherapy.Helpers
 {
@@ -29,7 +30,11 @@ namespace MelodiaTherapy.Helpers
         public static readonly TimeSpan InactivityDuration = TimeSpan.FromMinutes(3);
         // public static readonly TimeSpan InactivityDuration = TimeSpan.FromSeconds(10);
 
-    
+        public static int? TreatmentId;
+        public static int? AmbianceId;
+        public static int? ThemeId;
+        public static int? ListenTypeId;
+        public static int? ListenDurationId;
     }
 
 }

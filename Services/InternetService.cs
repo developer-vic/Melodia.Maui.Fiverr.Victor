@@ -9,7 +9,9 @@ namespace MelodiaTherapy.Services
 {
     public class InternetService
     {
-        public static async Task<bool> IsConnectedToInternetAsync()
+        internal static bool NeedConnection;
+
+        private static async Task<bool> IsConnectedToInternetAsync()
         {
             if (!NetworkInterface.GetIsNetworkAvailable())
                 return false;
@@ -25,7 +27,7 @@ namespace MelodiaTherapy.Services
             }
         }
 
-        public static Task<bool> IsConnectedToWifiAsync()
+        private static Task<bool> IsConnectedToWifiAsync()
         {
             try
             {
@@ -42,7 +44,7 @@ namespace MelodiaTherapy.Services
             return Task.FromResult(false);
         }
 
-        public static Task<bool> IsConnectedToMobileDataAsync()
+        private static Task<bool> IsConnectedToMobileDataAsync()
         {
             try
             {

@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+using MelodiaTherapy.Models;
+using Microsoft.Maui.Controls;
+
+namespace MelodiaTherapy.Controllers
+{
+    public class AmbianceController : DataController
+    {
+        public List<AmbianceModel>? Ambiances { get; private set; }
+        public List<string> ?SongGuids { get; private set; }
+
+        public AmbianceController() : base(DataType.Ambiances)
+        {
+        }
+
+        public async Task<bool> LoadDataFromJsonAsync()
+        {
+            string filePath = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine($"File not found: {filePath}");
+                return false;
+            }
+
+            try
+            {
+                string contents = await File.ReadAllTextAsync(filePath);
+                Ambiances = JsonSerializer.Deserialize<List<AmbianceModel>>(contents) ?? new List<AmbianceModel>();
+                SongGuids = Ambiances.Select(a => a.SongGuid ?? string.Empty).ToList();
+                Ambiances.Add(DefaultAmbianceModel);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading {Type}.json: {ex.Message}");
+                return false;
+            }
+        }
+
+        // retourne le chemin du son en local
+        public static string GetLocalSongPath(AmbianceModel ambiance, TimeSpan duration)
+        {
+            string ext = ".mp3";
+            string fileName = $"{ambiance.SongGuid}_{(int)duration.TotalMinutes}{ext}";
+            return Path.Combine(App.InternalPath, "sounds", DataType.Ambiances.ToString().ToLower(), fileName);
+        }
+
+        public static AmbianceModel DefaultAmbianceModel => new AmbianceModel
+        {
+            Guid = string.Empty,
+            SongGuid = string.Empty,
+            IconCode = "Ban",
+            Name = "Aucune",
+            IsPremium = false
+        };
+    }
+}

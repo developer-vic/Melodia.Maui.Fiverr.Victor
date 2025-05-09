@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui;
+using MelodiaTherapy.Controllers;
+using MelodiaTherapy.Services;
 using Microsoft.Extensions.Logging;
 using Sharpnado.Tabs;
 
@@ -13,11 +15,19 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
 			.UseSharpnadoTabs(loggerEnable: false)
+			.UseMauiCommunityToolkitMediaElement()
+			//.UseAudio()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		// Register your services
+		builder.Services.AddSingleton<MyAudioHandler>();
+		builder.Services.AddTransient<PageController>();
+		builder.Services.AddTransient<MelodiaController>();
+
 
 #if DEBUG
 		builder.Logging.AddDebug();

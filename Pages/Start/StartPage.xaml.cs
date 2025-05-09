@@ -56,7 +56,7 @@ namespace MelodiaTherapy.Pages
 
 				if (DataService.IsReady)
 				{
-					await Navigation.PushAsync(new ProgressPage());
+					NavigationService.SetAsMainPage(new ProgressPage());
 				}
 				else
 				{

@@ -4,7 +4,9 @@ namespace MelodiaTherapy;
 
 public partial class App : Application
 {
-	public App()
+    internal static string InternalPath = "";
+
+    public App()
 	{
 		InitializeComponent();
 	}

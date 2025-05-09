@@ -1,6 +1,8 @@
+using MelodiaTherapy.Models;
+
 namespace MelodiaTherapy.Services
 {
-    public static class DataService
+    public class DataService
     {
         public static event Action<bool>? DataReadyChanged;
         public static bool IsReady { get; private set; } = false;
@@ -27,7 +29,12 @@ namespace MelodiaTherapy.Services
         internal static async Task SendDeviceInfoAsync()
         {
             await Task.Delay(2000); // TODO: Simulate sending data
-            
+
+        }
+
+        internal static async Task SendStatistics(TreatmentModel selectedTreatment, AmbianceModel selectedAmbiance, ThemeModel selectedTheme, ListenDurationModel selectedListeningDuration, ListenTypeModel selectedListeningMode)
+        {
+            await Task.Delay(2000); // TODO: Simulate sending data
         }
     }
 }

@@ -77,11 +77,8 @@ namespace MelodiaTherapy.Models
 
     public enum DataType
     {
-        Ambiances = 1,
-        Themes = 2,
-        Isochrones = 3,
-        Binaurales = 4,
-        Treatments = 5
+        Ambiances = 1, Themes = 2, Isochrones = 3,  Binaurales = 4, Treatments = 5,
+        Data = 6, ListenTypes = 7, DurationsNew = 8,
     }
 
 }

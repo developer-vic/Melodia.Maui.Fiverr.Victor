@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             xmlns:widgets="clr-namespace:MelodiaTherapy.Widgets"
+             BackgroundColor="Transparent"
+             NavigationPage.HasNavigationBar="False"
              x:Class="MelodiaTherapy.Pages.ProgressPage"
              Title="ProgressPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid>
+        <!-- Background Image -->
+        <views:ThemeImage/>
+
+        <ScrollView>
+            <VerticalStackLayout HorizontalOptions="Center"
+                                 MaximumWidthRequest="{x:StaticResource kWidthConstraint}">
+
+                <Grid HorizontalOptions="Fill"
+                      ColumnDefinitions="*,*">
+                    <Image Grid.Column="0"
+                           HorizontalOptions="Start"
+                           Source="logo.png"
+                           WidthRequest="80"/>
+                    <HorizontalStackLayout Grid.Column="1"
+                                           HorizontalOptions="End">
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnOpenMenuClicked"/>
+                        </HorizontalStackLayout.GestureRecognizers>
+                        <Image Source="menu2.png"
+                               VerticalOptions="Center"/>
+                        <Label Text="Menu"
+                               TextColor="White"
+                               FontSize="22"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Grid>
+
+                <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=8, Default=48}"/>
+                <views:MyProgressIndicator/>
+                <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=32}"/>
+                <!-- Page Content Placeholder -->
+                <ContentView x:Name="CurrentPageView"/>
+                <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=32}"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Drawer Container - will be hidden by default, shown when menu button is clicked -->
+        <Grid x:Name="menuDrawerContainer"
+              BackgroundColor="#80000000"
+              IsVisible="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnDrawerClickOut"/>
+            </Grid.GestureRecognizers>
+
+            <!-- Menu Drawer - positioned on the right -->
+            <views:MenuDrawerView x:Name="menuDrawerView"
+                                  HorizontalOptions="End"
+                                  WidthRequest="{OnIdiom Phone=320, Tablet=480, Default=320}"/>
+        </Grid>
+    </Grid>
 </ContentPage>
