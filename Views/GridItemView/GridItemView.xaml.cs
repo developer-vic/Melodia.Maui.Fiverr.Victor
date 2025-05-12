@@ -68,8 +68,6 @@ public class GridItemView : ContentView
                 {
                     (icon = new Label
                     {
-                        // WidthRequest = 28,
-                        // HeightRequest = 28,
                         TextColor=Color.FromArgb("#76cec5"),
                         FontSize = 30,
                         FontFamily = "FontAwesome",
@@ -139,8 +137,9 @@ public class GridItemView : ContentView
         container.BackgroundColor =
             Treatment.Name == SelectedItem?.Name ? Colors.Orange : Colors.LightGray.WithAlpha(0.1f);
 
-        //icon.Source = Treatment.Icon;
         icon.Text = char.ConvertFromUtf32(int.TryParse(Treatment.Icon, out int iconCode) ? iconCode : 0xf5dc);
+        icon.TextColor = Treatment.IsPremium && !AppData.EntitlementIsActive ? Color.FromArgb("#FFC107") : Colors.Orange;
+
         nameLabel.Text = Treatment.Name;
         nameLabel.TextColor =
             Treatment.Name == SelectedItem?.Name ? Colors.Black : Colors.White;
@@ -152,7 +151,6 @@ public class GridItemView : ContentView
             infoIcon.WidthRequest = 24; infoIcon.HeightRequest = 24;
             infoIcon.Aspect = Aspect.Center;
             infoIcon.Source = (Treatment.IsPremium && !AppData.EntitlementIsActive) ? "lock.png" : "info.png";
-            //infoIcon.BackgroundColor = Treatment.IsPremium && !AppData.EntitlementIsActive ? Color.FromArgb("#FFC107") : Colors.Orange;
         }
     }
 
