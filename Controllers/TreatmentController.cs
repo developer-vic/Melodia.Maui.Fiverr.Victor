@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MelodiaTherapy.Models;
+using MelodiaTherapy.Services;
 
 
 namespace MelodiaTherapy.Controllers
 {
     public class TreatmentController : DataController
     {
-        public List<TreatmentModel>? Treatments { get; private set; }
+        public List<TreatmentModel>? Treatments { get; set; }
         public List<string>? SongGuids { get; private set; }
 
         public TreatmentController() : base(DataType.Treatments)
@@ -64,6 +65,26 @@ namespace MelodiaTherapy.Controllers
             string path = Path.Combine(App.InternalPath, "sounds", DataType.Treatments.ToString().ToLower(), fileName);
             Console.WriteLine($"//{path}");
             return $"//{path}";
+        }
+
+        internal async Task<List<TreatmentModel>> LoadDemoTreatments()
+        {
+            var localTreatments = await MobileServices.GetData<MobileTreatmentVM>("treatments.json");
+            Treatments = localTreatments
+                .Select(t => new TreatmentModel()
+                {
+                    Description = t.Description,
+                    Guid = t.Guid.ToString(),
+                    IconCode = t.IconCode,
+                    IsPremium = t.IsPremium,
+                    Name = t.Name,
+                    TreatmentUrls = t.TreatmentUrls.Select(turl => new TreatmentUrl()
+                    {
+                        ListenTypeGuidId = turl.ListenTypeGuidID.ToString(),
+                        SongGuid = turl.SongGuid.ToString()
+                    }).ToList()
+                }).ToList();
+            return Treatments;
         }
 
         public static TreatmentModel DefaultTreatmentModel => new TreatmentModel

@@ -26,10 +26,12 @@ public partial class ProgressNumber : ContentView
         var isCurrent = Controller.SelectedPage == Index;
         var isPast = Controller.SelectedPage > Index;
 
-        ProgressFrame.BackgroundColor = isCurrent ? Colors.LightBlue : isPast ? Colors.LightGray : Colors.Transparent;
-        ProgressFrame.Stroke = isCurrent || isPast ? Colors.DarkBlue : Colors.LightBlue;
-        IndexLabel.TextColor = isCurrent ? Colors.White : Colors.DarkBlue;
+        ProgressFrame.BackgroundColor = isCurrent || isPast ? Color.FromArgb("#17142b") : Colors.Transparent;
+        ProgressFrame.StrokeThickness = isCurrent || isPast ? 2 : 1;
+        ProgressFrame.Opacity = isCurrent || isPast ? 1 : 0.5;
+
+        IndexLabel.TextColor = isCurrent ? Colors.White : Color.FromArgb("#76cec5");
         IndexLabel.FontSize = 18;
         IndexLabel.FontAttributes = FontAttributes.Bold;
     }
-} 
+}

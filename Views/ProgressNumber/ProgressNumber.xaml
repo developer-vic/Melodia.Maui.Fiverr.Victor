@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MelodiaTherapy.Views.ProgressNumber">
     <Border x:Name="ProgressFrame"
-            StrokeShape="RoundRectangle 100"
-            Padding="12">
+            StrokeShape="RoundRectangle 50"
+            WidthRequest="45"
+            HeightRequest="45"
+            Stroke="#76cec5"
+            Padding="0">
         <Label x:Name="IndexLabel"
                HorizontalOptions="Center"
                VerticalOptions="Center"/>

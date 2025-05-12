@@ -1,4 +1,5 @@
 using MelodiaTherapy.Controllers;
+using MelodiaTherapy.Helpers;
 
 namespace MelodiaTherapy.Views;
 
@@ -9,12 +10,10 @@ public partial class MyProgressIndicator : ContentView
 	public MyProgressIndicator()
 	{
 		InitializeComponent();
-	}
+		Controller = ServiceHelper.GetService<MelodiaController>();
+		if (Controller == null)
+			return;
 
-	public MyProgressIndicator(MelodiaController controller)
-	{
-		InitializeComponent();
-		Controller = controller;
 		Controller.PropertyChanged += (s, e) => UpdateUI();
 		UpdateUI();
 	}
@@ -28,12 +27,18 @@ public partial class MyProgressIndicator : ContentView
 			for (int i = 0; i <= 4; i++)
 			{
 				ProgressGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-				ProgressGrid.Children.Add(new ProgressNumber(i, Controller)); //, i * 2, 0
+				int colIndex = i * 2;
+				var progressNumber = new ProgressNumber(i, Controller);
+				Grid.SetColumn(progressNumber, colIndex);
+				ProgressGrid.Children.Add(progressNumber);
 
 				if (i < 4)
 				{
 					ProgressGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-					ProgressGrid.Children.Add(new ProgressLine(i, Controller)); //, i * 2 + 1, 0
+					colIndex = colIndex + 1;
+					var progressLine = new ProgressLine(i, Controller);
+					Grid.SetColumn(progressLine, colIndex);
+					ProgressGrid.Children.Add(progressLine);
 				}
 			}
 		}

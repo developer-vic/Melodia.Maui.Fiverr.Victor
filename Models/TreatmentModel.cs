@@ -12,7 +12,19 @@ namespace MelodiaTherapy.Models
         public List<TreatmentUrl> TreatmentUrls { get; set; } = new();
 
         [JsonPropertyName("icon")]
-        public int Icon => string.IsNullOrEmpty(IconCode) ? 0xf5dc : int.Parse(IconCode);
+        public int Icon
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(IconCode)) return 0xf5dc;
+
+                string hex = IconCode.StartsWith("0x") ? IconCode.Substring(2) : IconCode;
+                return int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out int result)
+                    ? result
+                    : 0xf5dc;
+            }
+        }
+
 
         public TreatmentModel()
         {

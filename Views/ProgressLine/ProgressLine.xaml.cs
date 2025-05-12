@@ -2,15 +2,10 @@ using MelodiaTherapy.Controllers;
 
 namespace MelodiaTherapy.Views;
 
-public partial class ProgressLine : ContentPage
+public partial class ProgressLine : ContentView
 { 
 	public int Index { get; set; }
 	public MelodiaController? Controller { get; set; }
-
-	public ProgressLine()
-	{
-		InitializeComponent();
-	}
 
 	public ProgressLine(int index, MelodiaController controller)
 	{
@@ -30,9 +25,11 @@ public partial class ProgressLine : ContentPage
 			bool isBar = i % 2 == 0;
 			LineStack.Children.Add(new BoxView
 			{
-				WidthRequest = isBar ? 8 : 4,
-				HeightRequest = 4,
-				BackgroundColor = isBar || Controller?.SelectedPage > Index ? Colors.DarkBlue : Colors.Transparent
+				WidthRequest = isBar ? 6 : 3,
+				HeightRequest = 1,
+				Opacity = 0.5,
+				BackgroundColor = isBar || Controller?.SelectedPage > Index 
+					? Colors.Transparent : Color.FromArgb("#17142b")
 			});
 		}
 	}

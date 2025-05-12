@@ -1,11 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MelodiaTherapy.Pages.TreatmentPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="MelodiaTherapy.Pages.TreatmentPage"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             xmlns:widgets="clr-namespace:MelodiaTherapy.Widgets"
+             BackgroundColor="Transparent"
+             Padding="16">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10">
+            <widgets:TimerWidget/>
+
+            <Label x:Name="TitleLabel"
+                   Text=""
+                   HorizontalTextAlignment="Center"
+                   TextColor="White"
+                   FontFamily="OpenSansSemibold"
+                   LineHeight="1.1"
+                   FontSize="{OnPlatform Android=28, iOS=28, MacCatalyst=36, WinUI=36}"/>
+
+            <BoxView HeightRequest="1"
+                     WidthRequest="150"
+                     Color="White"
+                     Opacity="0.6"
+                     HorizontalOptions="Center"
+                     Margin="0,10"/>
+
+            <Label x:Name="SubtitleLabel"
+                   Text=""
+                   HorizontalTextAlignment="Center"
+                   TextColor="White"
+                   FontAttributes="None"
+                   LineHeight="1.2"
+                   FontSize="{OnPlatform Android=15, iOS=15, MacCatalyst=22, WinUI=22}"
+                   LineBreakMode="WordWrap"/>
+
+            <BoxView HeightRequest="1"
+                     WidthRequest="150"
+                     Color="White"
+                     Opacity="0.6"
+                     HorizontalOptions="Center"
+                     Margin="0,10"/>
+
+            <views:TreatmentGrid/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>

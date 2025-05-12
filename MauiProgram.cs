@@ -21,12 +21,14 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("fa-solid-900.otf", "FontAwesome");
 			});
 
 		// Register your services
 		builder.Services.AddSingleton<MyAudioHandler>();
 		builder.Services.AddTransient<PageController>();
 		builder.Services.AddTransient<MelodiaController>();
+		builder.Services.AddTransient<TreatmentController>();
 
 
 #if DEBUG
