@@ -7,7 +7,7 @@
              BackgroundColor="Transparent"
              Padding="16">
 
-    <ScrollView>
+    <ScrollView VerticalScrollBarVisibility="Never">
         <VerticalStackLayout Spacing="10">
             <widgets:TimerWidget/>
 

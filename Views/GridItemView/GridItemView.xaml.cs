@@ -138,7 +138,7 @@ public class GridItemView : ContentView
             Treatment.Name == SelectedItem?.Name ? Colors.Orange : Colors.LightGray.WithAlpha(0.1f);
 
         icon.Text = char.ConvertFromUtf32(int.TryParse(Treatment.Icon, out int iconCode) ? iconCode : 0xf5dc);
-        icon.TextColor = Treatment.IsPremium && !AppData.EntitlementIsActive ? Color.FromArgb("#FFC107") : Colors.Orange;
+        //icon.TextColor = Treatment.IsPremium && !AppData.EntitlementIsActive ? Color.FromArgb("#FFC107") : Colors.Orange;
 
         nameLabel.Text = Treatment.Name;
         nameLabel.TextColor =

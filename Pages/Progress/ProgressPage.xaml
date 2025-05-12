@@ -11,9 +11,9 @@
         <!-- Background Image -->
         <views:ThemeImage/>
 
-        <ScrollView>
+        <ScrollView VerticalScrollBarVisibility="Never">
             <VerticalStackLayout HorizontalOptions="Center"
-                                 MaximumWidthRequest="{x:StaticResource kWidthConstraint}">
+                                 MaximumWidthRequest="{x:StaticResource WidthConstraint}">
 
                 <Grid HorizontalOptions="Fill"
                       ColumnDefinitions="*,*">
