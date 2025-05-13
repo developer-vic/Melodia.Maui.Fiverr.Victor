@@ -5,8 +5,8 @@ using MelodiaTherapy.Models;
 namespace MelodiaTherapy.Pages;
 
 public partial class ProgressPage : ContentPage
-{	
-	private readonly MelodiaController? _controller = ServiceHelper.GetService<MelodiaController>();
+{
+	private readonly MelodiaController? _controller;
 	private readonly Dictionary<int, View> _pages;
 
 	public ProgressPage(object? navData = null)
@@ -22,19 +22,23 @@ public partial class ProgressPage : ContentPage
 			{ 4, new ThemePage() },
 			{ 5, new PlayerPage() }
 		};
-
+		
+		_controller = ServiceHelper.GetService<MelodiaController>();
 		if (_controller != null)
 		{
+			_controller.PageChanged += OnPageChanged;
+			progressIndicator.Controller = _controller;
+
 			if (navData is Dictionary<string, object> data)
 			{
-				_controller.SelectedTheme = (ThemeModel) data["Theme"];
-				_controller.SelectedTreatment = (TreatmentModel) data["Treat"];
-				_controller.SelectedAmbiance = (AmbianceModel) data["Atmosphere"];
-				_controller.SelectedListeningDuration = (ListenDurationModel) data["Duration"];
-				_controller.SelectedListeningMode = (ListenTypeModel) data["Listen Mode"];
-				_controller.SetSoundsValue(DataType.Ambiances, (double) data["Atmosphere Volume"]);
-				_controller.SetSoundsValue(DataType.Treatments, (double) data["Treatment Volume"]);
-				_controller.SetSoundsValue(DataType.Themes, (double) data["Theme Volume"]);
+				_controller.SelectedTheme = (ThemeModel)data["Theme"];
+				_controller.SelectedTreatment = (TreatmentModel)data["Treat"];
+				_controller.SelectedAmbiance = (AmbianceModel)data["Atmosphere"];
+				_controller.SelectedListeningDuration = (ListenDurationModel)data["Duration"];
+				_controller.SelectedListeningMode = (ListenTypeModel)data["Listen Mode"];
+				_controller.SetSoundsValue(DataType.Ambiances, (double)data["Atmosphere Volume"]);
+				_controller.SetSoundsValue(DataType.Treatments, (double)data["Treatment Volume"]);
+				_controller.SetSoundsValue(DataType.Themes, (double)data["Theme Volume"]);
 
 				MainThread.BeginInvokeOnMainThread(() =>
 				{
@@ -48,8 +52,6 @@ public partial class ProgressPage : ContentPage
 				_controller.SelectedPage = 0;
 				CurrentPageView.Content = _pages[0];
 			}
-
-			_controller.PageChanged += OnPageChanged;
 		}
 	}
 

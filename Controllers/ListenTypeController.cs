@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using MelodiaTherapy.Models;
+using MelodiaTherapy.Services;
 
 namespace MelodiaTherapy.Controllers
 {
 
     public class ListenTypeController : DataController
     {
-        public List<ListenTypeModel>? ListenTypes { get; private set; }
+        public List<ListenTypeModel>? ListenTypes { get; set; }
 
         public ListenTypeController() : base(DataType.ListenTypes)
         {
@@ -37,6 +38,19 @@ namespace MelodiaTherapy.Controllers
                 Console.WriteLine($"Error loading {Type}.json: {ex.Message}");
                 return false;
             }
+        }
+
+        internal async Task<List<ListenTypeModel>> LoadDemoListenings()
+        {
+            var localListenTypes = await MobileServices.GetData<MobileListenTypeVM>("listentypes.json");
+            ListenTypes = localListenTypes.Select(t => new ListenTypeModel()
+            {
+                Description = t.Description,
+                Guid = t.Guid.ToString(),
+                IconCode = t.IconCode,
+                Name = t.Name,
+            }).ToList();
+            return ListenTypes;
         }
 
         public static ListenTypeModel DefaultListenTypeModel => new ListenTypeModel

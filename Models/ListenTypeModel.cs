@@ -10,7 +10,17 @@ namespace MelodiaTherapy.Models
     public class ListenTypeModel : ListenTypeGridModel
     {
         [JsonIgnore]
-        public int Icon => IconCodeInt ?? GetFallbackIcon();
+        public int Icon
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(IconCode)) return GetFallbackIcon();
+
+                string hex = IconCode.StartsWith("0x") ? IconCode.Substring(2) : IconCode;
+                return int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out int result)
+                    ? result : GetFallbackIcon();
+            }
+        }
 
         public static ListenTypeModel FromJson(JsonElement json)
         {
@@ -51,9 +61,6 @@ namespace MelodiaTherapy.Models
 
         [JsonPropertyName("iconCode")]
         public string? IconCode { get; set; }
-
-        [JsonIgnore]
-        public int? IconCodeInt => int.TryParse(IconCode, out var val) ? val : null;
 
         [JsonPropertyName("name")]
         public string? Name { get; set; }

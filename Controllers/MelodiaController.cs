@@ -21,7 +21,6 @@ namespace MelodiaTherapy.Controllers
     public partial class MelodiaController : ObservableObject, IDisposable
     {
         private bool PlayStateIsPlaying;
-        internal readonly PageController _pageController;
         private readonly MyAudioHandler _audioHandler;
         public Action<int>? PageChanged { get; internal set; }
 
@@ -70,9 +69,8 @@ namespace MelodiaTherapy.Controllers
 
         private System.Timers.Timer? _inactivityTimer;
 
-        public MelodiaController(PageController pageController, MyAudioHandler audioHandler)
+        public MelodiaController(MyAudioHandler audioHandler)
         {
-            _pageController = pageController;
             _audioHandler = audioHandler;
 
             _selectedTreatment = GetLastTreatment();
@@ -239,17 +237,28 @@ namespace MelodiaTherapy.Controllers
         [RelayCommand]
         public void NextPage()
         {
-            _pageController.NextPage();
-            SelectedPage++;
+            //_controller.SetSoundsValue(null, 100);
+            int nextIndex = SelectedPage < 4 ? SelectedPage + 1 : SelectedPage;
+
+            SelectedPage = nextIndex;
             PageChanged?.Invoke(SelectedPage);
         }
 
         [RelayCommand]
         public void PreviousPage()
         {
-            _pageController.PreviousPage();
-            SelectedPage--;
+            //_controller.SetSoundsValue(null, 100);
+            int previousIndex = SelectedPage > 0 ? SelectedPage - 1 : SelectedPage;
+
+            SelectedPage = previousIndex;
             PageChanged?.Invoke(SelectedPage);
+        }
+
+        internal void JumpToPage(int index)
+        {
+            //_controller.SetSoundsValue(null, 100);
+            SelectedPage = index;
+            PageChanged?.Invoke(SelectedPage); 
         }
 
         public void SetSoundsValue(DataType? type, double value)

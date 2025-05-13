@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MelodiaTherapy.Pages.ThemePage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label
+            Text="Welcome to .NET ThemePage!"
+            TextColor="White"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
     </VerticalStackLayout>
 </ContentView>

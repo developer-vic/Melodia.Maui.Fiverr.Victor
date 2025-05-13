@@ -5,17 +5,22 @@ namespace MelodiaTherapy.Views;
 
 public partial class MyProgressIndicator : ContentView
 {
-	public MelodiaController? Controller { get; set; }
+	private MelodiaController? controller;
+
+	public MelodiaController? Controller { get => controller; set { controller = value; UpdateController(); } }
+
+	private void UpdateController()
+	{
+		if (Controller != null)
+		{
+			Controller.PropertyChanged += (s, e) => UpdateUI();
+			UpdateUI();
+		}
+	}
 
 	public MyProgressIndicator()
 	{
 		InitializeComponent();
-		Controller = ServiceHelper.GetService<MelodiaController>();
-		if (Controller == null)
-			return;
-
-		Controller.PropertyChanged += (s, e) => UpdateUI();
-		UpdateUI();
 	}
 
 	private void UpdateUI()

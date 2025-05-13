@@ -16,7 +16,7 @@ public partial class ProgressNumber : ContentView
         UpdateVisual();
 
         var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += (s, e) => Controller._pageController.JumpToPage(Index);
+        tapGesture.Tapped += (s, e) => Controller.JumpToPage(Index);
         this.GestureRecognizers.Add(tapGesture);
     }
 

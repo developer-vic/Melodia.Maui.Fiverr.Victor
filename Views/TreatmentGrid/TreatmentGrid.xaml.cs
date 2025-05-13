@@ -2,7 +2,6 @@ using MelodiaTherapy.Controllers;
 using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Models;
 using MelodiaTherapy.Pages;
-using MelodiaTherapy.Services;
 
 namespace MelodiaTherapy.Views;
 
@@ -74,7 +73,7 @@ public class TreatmentGrid : ContentView
 				melodia.SelectedTreatment.Name,
 				melodia.SelectedTreatment.Description);
 
-			var item = new GridItemView(gridModel, selectedGridModel, show: true);
+			var item = new GridItem(gridModel, selectedGridModel, show: true);
 			item.OnTapped = () =>
 			{
 				if (treatment.IsPremium && !AppData.EntitlementIsActive)

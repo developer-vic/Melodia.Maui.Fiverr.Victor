@@ -26,11 +26,11 @@ public static class MauiProgram
 
 		// Register your services
 		builder.Services.AddSingleton<MyAudioHandler>();
-		builder.Services.AddTransient<PageController>();
 		builder.Services.AddTransient<MelodiaController>();
 		builder.Services.AddTransient<TreatmentController>();
-
-
+		builder.Services.AddTransient<AmbianceController>();
+		builder.Services.AddTransient<ListenTypeController>();
+		
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif

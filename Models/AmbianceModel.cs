@@ -8,8 +8,19 @@ namespace MelodiaTherapy.Models
         [JsonPropertyName("isPremium")]
         public bool IsPremium { get; set; }
 
-        [JsonPropertyName("icon")]
-        public string Icon => IconCode ?? "music.png";
+        [JsonIgnore]
+        public int Icon
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(IconCode)) return 0xf5dc;
+
+                string hex = IconCode.StartsWith("0x") ? IconCode.Substring(2) : IconCode;
+                return int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out int result)
+                    ? result
+                    : 0xf5dc;
+            }
+        }
 
         public AmbianceModel()
         {
@@ -42,12 +53,12 @@ namespace MelodiaTherapy.Models
         [JsonPropertyName("iconCode")]
         public string? IconCode { get; set; }
 
-        [JsonIgnore]
-        public int? IconCodeInt => int.TryParse(IconCode, out var code) ? code : null;
-
         [JsonPropertyName("name")]
         public string? Name { get; set; }
-        
+
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+
     }
 
 }

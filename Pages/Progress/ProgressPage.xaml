@@ -36,7 +36,7 @@
                 </Grid>
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
                 
-                <views:MyProgressIndicator/>
+                <views:MyProgressIndicator x:Name="progressIndicator"/>
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
                 
                 <!-- Page Content Placeholder -->

@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MelodiaTherapy.Models;
+using MelodiaTherapy.Services;
 using Microsoft.Maui.Controls;
 
 namespace MelodiaTherapy.Controllers
 {
     public class AmbianceController : DataController
     {
-        public List<AmbianceModel>? Ambiances { get; private set; }
-        public List<string> ?SongGuids { get; private set; }
+        public List<AmbianceModel>? Ambiances { get; set; }
+        public List<string>? SongGuids { get; private set; }
 
         public AmbianceController() : base(DataType.Ambiances)
         {
@@ -49,6 +50,22 @@ namespace MelodiaTherapy.Controllers
             string ext = ".mp3";
             string fileName = $"{ambiance.SongGuid}_{(int)duration.TotalMinutes}{ext}";
             return Path.Combine(App.InternalPath, "sounds", DataType.Ambiances.ToString().ToLower(), fileName);
+        }
+
+        internal async Task<List<AmbianceModel>> LoadDemoAmbiances()
+        {
+            var localTreatments = await MobileServices.GetData<MobileAmbianceVM>("ambiances.json");
+            Ambiances = localTreatments
+                .Select(t => new AmbianceModel()
+                {
+                    Description = t.Description,
+                    Guid = t.Guid.ToString(),
+                    IconCode = t.IconCode,
+                    IsPremium = t.IsPremium,
+                    Name = t.Name,
+                    SongGuid = t.SongGuid.ToString()
+                }).ToList();
+            return Ambiances;
         }
 
         public static AmbianceModel DefaultAmbianceModel => new AmbianceModel
