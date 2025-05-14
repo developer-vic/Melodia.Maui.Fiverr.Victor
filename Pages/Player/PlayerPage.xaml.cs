@@ -1,6 +1,6 @@
 namespace MelodiaTherapy.Pages;
 
-public partial class PlayerPage : ContentView
+public partial class PlayerPage : ContentPage
 {
 	public PlayerPage()
 	{

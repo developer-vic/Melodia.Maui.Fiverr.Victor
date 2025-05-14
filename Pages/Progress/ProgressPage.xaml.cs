@@ -19,8 +19,8 @@ public partial class ProgressPage : ContentPage
 			{ 1, new AmbiancePage() },
 			{ 2, new ListeningPage() },
 			{ 3, new ListeningDurationPage() },
-			{ 4, new ThemePage() },
-			{ 5, new PlayerPage() }
+			{ 4, new ThemePage() }
+			//{ 5, new PlayerPage() }
 		};
 		
 		_controller = ServiceHelper.GetService<MelodiaController>();

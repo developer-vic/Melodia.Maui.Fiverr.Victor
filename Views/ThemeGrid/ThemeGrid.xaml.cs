@@ -191,7 +191,7 @@ namespace MelodiaTherapy.Views
             await Task.Delay(1000);
             ShowLoading(false);
             _melodiaController.SetSoundsValue(null, 100);
-            _melodiaController.NextPage();
+            _melodiaController.GotoPlayerPage();
         }
 
         private void ShowLoading(bool show)

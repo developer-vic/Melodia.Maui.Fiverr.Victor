@@ -15,6 +15,7 @@ using MelodiaTherapy.Views;
 using System.Timers;
 using MelodiaTherapy.Helpers;
 using System.Net.Http.Headers;
+using MelodiaTherapy.Pages;
 
 namespace MelodiaTherapy.Controllers
 {
@@ -238,7 +239,7 @@ namespace MelodiaTherapy.Controllers
         public void NextPage()
         {
             //_controller.SetSoundsValue(null, 100);
-            int nextIndex = SelectedPage < 4 ? SelectedPage + 1 : SelectedPage;
+            int nextIndex = SelectedPage < 5 ? SelectedPage + 1 : SelectedPage;
 
             SelectedPage = nextIndex;
             PageChanged?.Invoke(SelectedPage);
@@ -258,7 +259,7 @@ namespace MelodiaTherapy.Controllers
         {
             //_controller.SetSoundsValue(null, 100);
             SelectedPage = index;
-            PageChanged?.Invoke(SelectedPage); 
+            PageChanged?.Invoke(SelectedPage);
         }
 
         public void SetSoundsValue(DataType? type, double value)
@@ -657,6 +658,11 @@ namespace MelodiaTherapy.Controllers
             PlayStateIsPlaying = false;
 
             GC.SuppressFinalize(this);
+        }
+
+        internal void GotoPlayerPage()
+        {
+            NavigationService.PushPage(new PlayerPage());
         }
     }
 }
