@@ -8,14 +8,14 @@ namespace MelodiaTherapy.Views;
 public class ListeningGrid : ContentView
 {
     private readonly MelodiaController? melodia;
-    private readonly ListenTypeController? acontroller;
+    private readonly ListenTypeController? ltcontroller;
     private readonly bool isMobile;
     private readonly Grid grid;
 
     public ListeningGrid()
     {
         melodia = ServiceHelper.GetService<MelodiaController>();
-        acontroller = ServiceHelper.GetService<ListenTypeController>();
+        ltcontroller = ServiceHelper.GetService<ListenTypeController>();
         isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
 
         grid = new Grid
@@ -39,22 +39,22 @@ public class ListeningGrid : ContentView
         for (int i = 0; i < columns; i++)
             grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
-        if (acontroller == null)
+        if (ltcontroller == null)
             return;
         if (melodia == null)
             return;
 
-        if (acontroller.ListenTypes == null)
-            acontroller.ListenTypes = await acontroller.LoadDemoListenings();
+        if (ltcontroller.ListenTypes == null)
+            ltcontroller.ListenTypes = await ltcontroller.LoadDemoListenings();
 
         grid.RowDefinitions.Clear();
-        int rows = (int)Math.Ceiling(acontroller.ListenTypes.Count / (double)columns);
+        int rows = (int)Math.Ceiling(ltcontroller.ListenTypes.Count / (double)columns);
         for (int i = 0; i < rows; i++)
             grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
-        for (int index = 0; index < acontroller.ListenTypes.Count; index++)
+        for (int index = 0; index < ltcontroller.ListenTypes.Count; index++)
         {
-            var Listening = acontroller.ListenTypes[index];
+            var Listening = ltcontroller.ListenTypes[index];
 
             GridModel gridModel = new GridModel(
                 Listening.Guid,

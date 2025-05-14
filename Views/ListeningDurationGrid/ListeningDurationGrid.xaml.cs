@@ -108,7 +108,7 @@ namespace MelodiaTherapy.Views
                 FontSize = 16,
                 HorizontalOptions = LayoutOptions.End,
                 VerticalOptions = LayoutOptions.Start,
-                Margin = new Thickness(0, 0, 5, 0)
+                Margin = new Thickness(0, 5, 5, 0)
             };
 
             var tapGesture = new TapGestureRecognizer();
