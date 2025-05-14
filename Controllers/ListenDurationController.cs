@@ -1,11 +1,13 @@
 using System.Text.Json;
 using MelodiaTherapy.Models;
+using MelodiaTherapy.Services;
 
 namespace MelodiaTherapy.Controllers
 {
     public class ListenDurationController : DataController
     {
-        public List<ListenDurationModel>? ListenDurations { get; private set; }
+        public List<ListenDurationModel>? ListenDurations { get; set; }
+        public ListenDurationModel? SelectedListenDurations { get; set; }
 
         public ListenDurationController() : base(DataType.DurationsNew)
         {
@@ -32,6 +34,19 @@ namespace MelodiaTherapy.Controllers
                 Console.WriteLine($"Error loading {Type}.json: {ex.Message}");
                 return false;
             }
+        }
+
+        internal async Task<List<ListenDurationModel>> LoadDemoListeningDuration()
+        {
+            var locationDurations = await MobileServices.GetData<MobileDurationVM>("durations.json");
+            ListenDurations = locationDurations.Select(t => new ListenDurationModel()
+            {
+                Description = t.Description,
+                LengthInMinutes = t.Length,
+                Duration = TimeSpan.FromMinutes(t.Length),
+                IsPremium = t.IsPremium
+            }).ToList();
+            return ListenDurations;
         }
 
         public static ListenDurationModel DefaultListenDurationModel => new ListenDurationModel

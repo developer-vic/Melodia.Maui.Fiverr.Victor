@@ -30,7 +30,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<TreatmentController>();
 		builder.Services.AddTransient<AmbianceController>();
 		builder.Services.AddTransient<ListenTypeController>();
-		
+		builder.Services.AddTransient<ListenDurationController>();
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif

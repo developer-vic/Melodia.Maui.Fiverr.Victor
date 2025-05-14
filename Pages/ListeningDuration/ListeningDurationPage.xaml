@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views"
+             xmlns:widget="clr-namespace:MelodiaTherapy.Widgets"
+             BackgroundColor="Transparent"
              x:Class="MelodiaTherapy.Pages.ListeningDurationPage">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to .NET ListeningDurationPage!"
-            TextColor="White"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout>
+            <widget:TimerWidget/>
+
+            <Label x:Name="TitleLabel"
+                   HorizontalTextAlignment="Center"
+                   TextColor="White"
+                   FontSize="{OnPlatform Android=28, iOS=28, MacCatalyst=36, WinUI=36}"
+                   FontAttributes="Bold"/>
+
+            <BoxView HeightRequest="1"
+                     WidthRequest="150"
+                     BackgroundColor="White"
+                     Opacity="0.6"
+                     Margin="0,20"
+                     HorizontalOptions="Center"/>
+
+            <views:ListeningDurationGrid/>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentView>
