@@ -1,6 +1,8 @@
 using System.Text.Json;
+using MelodiaTherapy.Enums;
 using MelodiaTherapy.Models;
 using MelodiaTherapy.Services;
+using MelodiaTherapy.Globals;
 
 namespace MelodiaTherapy.Controllers
 {
@@ -15,7 +17,7 @@ namespace MelodiaTherapy.Controllers
 
         public async Task<bool> LoadDataFromJsonAsync()
         {
-            string filePath = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+            string filePath = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
 
             if (!File.Exists(filePath))
             {

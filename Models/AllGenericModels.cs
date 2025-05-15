@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using MelodiaTherapy.Enums;
 
 namespace MelodiaTherapy.Models
 {
@@ -73,12 +74,6 @@ namespace MelodiaTherapy.Models
         public string SongGuid { get; set; }
         public string Duration { get; set; }
         public DataType Type { get; set; }
-    }
-
-    public enum DataType
-    {
-        Ambiances = 1, Themes = 2, Isochrones = 3,  Binaurales = 4, Treatments = 5,
-        Data = 6, ListenTypes = 7, DurationsNew = 8,
     }
 
 }

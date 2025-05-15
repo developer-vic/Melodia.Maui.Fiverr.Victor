@@ -1,0 +1,49 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MelodiaTherapy.Views.PlayerViews.SoundSliderView">
+    <VerticalStackLayout Spacing="10">
+
+        <!-- Title -->
+        <Label Text="{Binding Title}"
+               FontSize="20"
+               HorizontalOptions="Start"
+               TextColor="White"
+               LineBreakMode="TailTruncation"
+               Margin="44,0,0,0"/>
+
+        <!-- Conditional UI -->
+        <Grid>
+            <!-- Downloading progress -->
+            <Grid IsVisible="{Binding IsReady, Converter={StaticResource InverseBoolConverter}}">
+                <ProgressBar Progress="{Binding Progress}"
+                             BackgroundColor="#FFFFFF10"
+                             ProgressColor="#FFB74D"
+                             HeightRequest="30"/>
+                <Label Text="TÉLÉCHARGEMENT ..."
+                       FontAttributes="Bold"
+                       FontSize="15"
+                       TextColor="White"
+                       Margin="60,0,0,0"/>
+            </Grid>
+
+            <!-- Slider & Volume Icon -->
+            <Grid IsVisible="{Binding IsReady}">
+                <HorizontalStackLayout Spacing="10">
+                    <ImageButton Command="{Binding ToggleSoundCommand}"
+                                 WidthRequest="32"
+                                 HeightRequest="32"
+                                 BackgroundColor="Transparent"
+                                 Source="{Binding Sound, Converter={StaticResource VolumeIconConverter}}"/>
+                    <Slider Minimum="0"
+                            Maximum="100"
+                            Value="{Binding Sound, Mode=TwoWay}"
+                            ThumbColor="#FF6F00"
+                            MaximumTrackColor="White"
+                            MinimumTrackColor="White"
+                            HeightRequest="40"
+                            WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

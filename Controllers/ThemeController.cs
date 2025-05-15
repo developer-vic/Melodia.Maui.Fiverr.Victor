@@ -9,6 +9,8 @@ using MelodiaTherapy.Models;
 using MelodiaTherapy.Controllers;
 using Microsoft.Maui.Controls;
 using MelodiaTherapy.Services;
+using MelodiaTherapy.Enums;
+using MelodiaTherapy.Globals;
 
 namespace MelodiaTherapy.Controllers
 {
@@ -24,7 +26,7 @@ namespace MelodiaTherapy.Controllers
         {
             try
             {
-                string path = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+                string path = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
 
                 if (!File.Exists(path))
                     return false;
@@ -47,13 +49,13 @@ namespace MelodiaTherapy.Controllers
 
         public static string GetLocalImagePath(ThemeModel theme)
         {
-            return Path.Combine("//" + App.InternalPath, "images", DataType.Themes.ToString().ToLower(), $"{theme.Guid}.jpg");
+            return Path.Combine("//" + Config.InternalPath, "images", DataType.Themes.ToString().ToLower(), $"{theme.Guid}.jpg");
         }
 
         public static string GetLocalSongPath(ThemeModel theme, TimeSpan duration)
         {
             string fileName = $"{theme.SongGuid}_{(int)duration.TotalMinutes}.mp3";
-            return Path.Combine("//" + App.InternalPath, "sounds", DataType.Themes.ToString().ToLower(), fileName);
+            return Path.Combine("//" + Config.InternalPath, "sounds", DataType.Themes.ToString().ToLower(), fileName);
         }
 
         internal async Task<List<ThemeModel>> LoadDemoThemes()

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MelodiaTherapy.Enums;
+using MelodiaTherapy.Globals;
 using MelodiaTherapy.Models;
 using MelodiaTherapy.Services;
 using Microsoft.Maui.Controls;
@@ -21,7 +23,7 @@ namespace MelodiaTherapy.Controllers
 
         public async Task<bool> LoadDataFromJsonAsync()
         {
-            string filePath = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+            string filePath = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
 
             if (!File.Exists(filePath))
             {
@@ -49,7 +51,7 @@ namespace MelodiaTherapy.Controllers
         {
             string ext = ".mp3";
             string fileName = $"{ambiance.SongGuid}_{(int)duration.TotalMinutes}{ext}";
-            return Path.Combine(App.InternalPath, "sounds", DataType.Ambiances.ToString().ToLower(), fileName);
+            return Path.Combine(Config.InternalPath, "sounds", DataType.Ambiances.ToString().ToLower(), fileName);
         }
 
         internal async Task<List<AmbianceModel>> LoadDemoAmbiances()

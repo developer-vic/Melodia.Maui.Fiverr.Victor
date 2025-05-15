@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MelodiaTherapy.Views.PlayerViews"
+             xmlns:viewmodels="clr-namespace:MelodiaTherapy.Pages"
+             x:DataType="viewmodels:PlayerPageViewModel"
+             BackgroundColor="Black"
+             Padding="10"
              x:Class="MelodiaTherapy.Pages.PlayerPage">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to .NET PlayerPage!"
-            TextColor="White"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout>
+            <Label Text="{Binding SelectedTheme.Name}"
+                   FontSize="{OnPlatform Default=32, iOS=40}"
+                   FontAttributes="None"
+                   HorizontalOptions="Center"
+                   TextColor="White"/>
+
+            <BoxView HeightRequest="2"
+                     WidthRequest="{OnPlatform Default=150, iOS=250}"
+                     BackgroundColor="White"
+                     Opacity="0.6"
+                     HorizontalOptions="Center"
+                     Margin="0,20"/>
+
+            <views:PlayerSlider IsVisible="{Binding ReadyToPlay}"/>
+
+            <BoxView HeightRequest="{OnPlatform Default=40, iOS=60}"/>
+
+            <views:SubPlayerView IsVisible="{Binding ShowTreatment}"
+                             BindingContext="{Binding TreatmentSubPlayer}"/>
+            <views:SubPlayerView IsVisible="{Binding ShowAmbiance}"
+                             BindingContext="{Binding AmbianceSubPlayer}"/>
+            <views:SubPlayerView IsVisible="{Binding ShowTheme}"
+                             BindingContext="{Binding ThemeSubPlayer}"/>
+
+            <BoxView HeightRequest="{OnPlatform Default=20, iOS=30}"/>
+
+            <Grid HorizontalOptions="Center">
+                <ImageButton Source="{Binding PlayIcon}"
+                             WidthRequest="{OnPlatform Default=48, iOS=80}"
+                             HeightRequest="{OnPlatform Default=48, iOS=80}"
+                             BackgroundColor="Transparent"
+                             IsVisible="{Binding ReadyToPlay}"
+                             Command="{Binding PlayCommand}"/>
+            </Grid>
+
+            <StackLayout HorizontalOptions="End"
+                         Padding="0,18,7,0">
+                <Button Text="Save This Session"
+                        Command="{Binding SaveSessionCommand}"
+                        BackgroundColor="#00FFCC"
+                        TextColor="Black"/>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

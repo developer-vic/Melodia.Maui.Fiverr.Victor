@@ -1,15 +1,8 @@
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks; 
+using MelodiaTherapy.Enums;
 using MelodiaTherapy.Globals;
 using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Models;
-using MelodiaTherapy.Services;
-using Microsoft.Maui.Controls;
+using MelodiaTherapy.Services; 
 
 namespace MelodiaTherapy.Controllers
 {
@@ -45,7 +38,7 @@ namespace MelodiaTherapy.Controllers
                 var response = await httpClient.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
-                    string path = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+                    string path = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
                     Directory.CreateDirectory(Path.GetDirectoryName(path)!);
                     await File.WriteAllTextAsync(path, await response.Content.ReadAsStringAsync());
 
@@ -77,11 +70,15 @@ namespace MelodiaTherapy.Controllers
 
             foreach (var theme in items)
             {
-                var imageUrl = theme.ImageUrl.Replace($".{ext}", $".small.{ext}").Replace(" ", "%20");
-                string filePath = Path.Combine(App.InternalPath, "images", Type.ToString().ToLower(), $"{theme.Guid}.{ext}");
+                if (theme != null && !string.IsNullOrEmpty(theme.ImageUrl)
+                    && !string.IsNullOrEmpty(theme.Guid))
+                {
+                    var imageUrl = theme.ImageUrl.Replace($".{ext}", $".small.{ext}").Replace(" ", "%20");
+                    string filePath = Path.Combine(Config.InternalPath, "images", Type.ToString().ToLower(), $"{theme.Guid}.{ext}");
 
-                if (!File.Exists(filePath))
-                    listImages[theme.Guid] = imageUrl;
+                    if (!File.Exists(filePath))
+                        listImages[theme.Guid] = imageUrl;
+                }
             }
 
             Console.WriteLine($"{listImages.Count} image(s) to download, wait please");
@@ -115,7 +112,7 @@ namespace MelodiaTherapy.Controllers
 
                 byte[] data = await response.Content.ReadAsByteArrayAsync();
 
-                string filePath = Path.Combine(App.InternalPath, directory, $"{fileName}.{ext}");
+                string filePath = Path.Combine(Config.InternalPath, directory, $"{fileName}.{ext}");
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
                 await File.WriteAllBytesAsync(filePath, data);
 
@@ -129,9 +126,9 @@ namespace MelodiaTherapy.Controllers
             }
         }
 
-        public async Task<bool> JsonExistsAsync()
+        public bool JsonExistsAsync()
         {
-            string path = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+            string path = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
             return File.Exists(path);
         }
     }

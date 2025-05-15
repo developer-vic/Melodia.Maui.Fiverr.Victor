@@ -1,12 +1,8 @@
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text.Json; 
+using MelodiaTherapy.Enums;
 using MelodiaTherapy.Models;
 using MelodiaTherapy.Services;
+using MelodiaTherapy.Globals;
 
 
 namespace MelodiaTherapy.Controllers
@@ -22,7 +18,7 @@ namespace MelodiaTherapy.Controllers
 
         public async Task<bool> LoadDataFromJsonAsync()
         {
-            string filePath = Path.Combine(App.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
+            string filePath = Path.Combine(Config.InternalPath, "jsons", $"{Type.ToString().ToLower()}.json");
 
             if (!File.Exists(filePath))
             {
@@ -62,7 +58,7 @@ namespace MelodiaTherapy.Controllers
             string ext = ".mp3";
             var songGuid = treatment.TreatmentUrls.FirstOrDefault(e => e.ListenTypeGuidId == listenMode.Guid)?.SongGuid;
             string fileName = $"{songGuid}_{(int)duration.TotalMinutes}{ext}";
-            string path = Path.Combine(App.InternalPath, "sounds", DataType.Treatments.ToString().ToLower(), fileName);
+            string path = Path.Combine(Config.InternalPath, "sounds", DataType.Treatments.ToString().ToLower(), fileName);
             Console.WriteLine($"//{path}");
             return $"//{path}";
         }

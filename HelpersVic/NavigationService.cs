@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
 using MelodiaTherapy.Pages;
+using MelodiaTherapy.Views.PlayerViews;
 
 namespace MelodiaTherapy.Helpers
 {
@@ -86,6 +87,19 @@ namespace MelodiaTherapy.Helpers
             {
                 Application.Current.Windows[0].Page = new NavigationPage(mainContentPage);
             }
+        }
+
+        internal static async Task ShowPopupAsync(ContentPage popup)
+        { 
+            if (Application.Current?.Windows?.Count > 0)
+            {
+                var mainPage = Application.Current?.Windows[0].Page;
+                if (mainPage is not null)
+                {
+                    await mainPage.Navigation.PushModalAsync(popup);
+                }
+            }
+
         }
     }
 }

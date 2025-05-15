@@ -33,7 +33,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<ListenTypeController>();
 		builder.Services.AddTransient<ListenDurationController>();
 		builder.Services.AddTransient<ThemeController>();
-
+		builder.Services.AddTransient<DownloadController>();
+	
 
 #if DEBUG
 		builder.Logging.AddDebug();

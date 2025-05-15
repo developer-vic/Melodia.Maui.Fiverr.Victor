@@ -18,20 +18,19 @@ public class MyAudioHandler
         PrimaryPlayer = _audioManager.CreatePlayer();
         SecondaryPlayer = _audioManager.CreatePlayer();
         ThirdyPlayer = _audioManager.CreatePlayer();
-
-        // Simulate Playback State Subscription
-        // Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-        // {
-        //     var state = GetCurrentPlaybackState();
-        //     OnPlaybackStateChanged?.Invoke(state);
-        //     return true;
-        // });
+ 
+        Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+        {
+            var state = GetCurrentPlaybackState();
+            OnPlaybackStateChanged?.Invoke(state);
+            return true;
+        });
     }
 
     public async Task ChangeMediaItem(MediaItem item)
     {
         PrimaryPlayer.Stop();
-        
+
         if (!string.IsNullOrEmpty(item.Id))
             PrimaryPlayer.SetSource(await FileSystem.OpenAppPackageFileAsync(item.Id));
         // In Maui.Audio, only one file plays at a time per player instance

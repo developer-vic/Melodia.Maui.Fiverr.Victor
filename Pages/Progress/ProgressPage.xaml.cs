@@ -1,4 +1,5 @@
 using MelodiaTherapy.Controllers;
+using MelodiaTherapy.Enums;
 using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Models;
 

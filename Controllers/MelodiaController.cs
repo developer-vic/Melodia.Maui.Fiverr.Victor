@@ -16,6 +16,7 @@ using System.Timers;
 using MelodiaTherapy.Helpers;
 using System.Net.Http.Headers;
 using MelodiaTherapy.Pages;
+using MelodiaTherapy.Enums;
 
 namespace MelodiaTherapy.Controllers
 {

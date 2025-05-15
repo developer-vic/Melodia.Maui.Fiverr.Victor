@@ -13,6 +13,7 @@ namespace MelodiaTherapy.Globals
 
     public static class Config
     {
+        internal static string InternalPath = "";
         public static EnvironmentType Environment = EnvironmentType.Production;
         public static string Ip = "192.168.100.67";
 
