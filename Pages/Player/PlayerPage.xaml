@@ -24,33 +24,33 @@
 
             <views:PlayerSlider IsVisible="{Binding ReadyToPlay}"/>
 
-            <BoxView HeightRequest="{OnPlatform Default=40, iOS=60}"/>
+            <!-- <BoxView HeightRequest="{OnPlatform Default=40, iOS=60}"/> -->
 
             <views:SubPlayerView IsVisible="{Binding ShowTreatment}"
-                             BindingContext="{Binding TreatmentSubPlayer}"/>
+                                 BindingContext="{Binding TreatmentSubPlayer}"/>
             <views:SubPlayerView IsVisible="{Binding ShowAmbiance}"
-                             BindingContext="{Binding AmbianceSubPlayer}"/>
+                                 BindingContext="{Binding AmbianceSubPlayer}"/>
             <views:SubPlayerView IsVisible="{Binding ShowTheme}"
-                             BindingContext="{Binding ThemeSubPlayer}"/>
+                                 BindingContext="{Binding ThemeSubPlayer}"/>
 
-            <BoxView HeightRequest="{OnPlatform Default=20, iOS=30}"/>
+            <!-- <BoxView HeightRequest="{OnPlatform Default=20, iOS=30}"/> -->
 
-            <Grid HorizontalOptions="Center">
+            <Grid HorizontalOptions="Center"> 
                 <ImageButton Source="{Binding PlayIcon}"
-                             WidthRequest="{OnPlatform Default=48, iOS=80}"
-                             HeightRequest="{OnPlatform Default=48, iOS=80}"
-                             BackgroundColor="Transparent"
                              IsVisible="{Binding ReadyToPlay}"
+                             WidthRequest="{OnPlatform Default=48, iOS=60}"
+                             HeightRequest="{OnPlatform Default=48, iOS=60}"
+                             BackgroundColor="Transparent"
                              Command="{Binding PlayCommand}"/>
             </Grid>
 
-            <StackLayout HorizontalOptions="End"
+            <!-- <StackLayout HorizontalOptions="End"
                          Padding="0,18,7,0">
                 <Button Text="Save This Session"
                         Command="{Binding SaveSessionCommand}"
                         BackgroundColor="#00FFCC"
                         TextColor="Black"/>
-            </StackLayout>
+            </StackLayout> -->
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

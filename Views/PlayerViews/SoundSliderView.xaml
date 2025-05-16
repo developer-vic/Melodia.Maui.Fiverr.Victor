@@ -14,7 +14,7 @@
         <!-- Conditional UI -->
         <Grid>
             <!-- Downloading progress -->
-            <Grid IsVisible="{Binding IsReady, Converter={StaticResource InverseBoolConverter}}">
+            <!-- <VerticalStackLayout IsVisible="{Binding NotIsReady}">
                 <ProgressBar Progress="{Binding Progress}"
                              BackgroundColor="#FFFFFF10"
                              ProgressColor="#FFB74D"
@@ -24,26 +24,24 @@
                        FontSize="15"
                        TextColor="White"
                        Margin="60,0,0,0"/>
-            </Grid>
+            </VerticalStackLayout> -->
 
-            <!-- Slider & Volume Icon -->
-            <Grid IsVisible="{Binding IsReady}">
-                <HorizontalStackLayout Spacing="10">
-                    <ImageButton Command="{Binding ToggleSoundCommand}"
-                                 WidthRequest="32"
-                                 HeightRequest="32"
-                                 BackgroundColor="Transparent"
-                                 Source="{Binding Sound, Converter={StaticResource VolumeIconConverter}}"/>
-                    <Slider Minimum="0"
-                            Maximum="100"
-                            Value="{Binding Sound, Mode=TwoWay}"
-                            ThumbColor="#FF6F00"
-                            MaximumTrackColor="White"
-                            MinimumTrackColor="White"
-                            HeightRequest="40"
-                            WidthRequest="200"/>
-                </HorizontalStackLayout>
-            </Grid>
+            <!-- Slider & Volume Icon - IsVisible="{Binding IsReady}"-->
+            <HorizontalStackLayout Spacing="10">
+                <ImageButton Command="{Binding ToggleSoundCommand}"
+                             WidthRequest="22"
+                             HeightRequest="22" 
+                             BackgroundColor="Transparent"
+                             Source="{Binding SoundIcon}"/>
+                <Slider Minimum="0"
+                        Maximum="100"
+                        Value="{Binding Sound, Mode=TwoWay}"
+                        ThumbColor="#76cec5"
+                        MaximumTrackColor="White"
+                        MinimumTrackColor="White"
+                        HeightRequest="40"
+                        WidthRequest="200"/>
+            </HorizontalStackLayout>
         </Grid>
     </VerticalStackLayout>
 </ContentView>

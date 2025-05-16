@@ -20,7 +20,7 @@ namespace MelodiaTherapy.Controllers
 
         public DownloadStatus DownloadStatus { get; }
 
-        private bool _ready;
+        private bool _ready = true;
         public bool Ready
         {
             get => _ready;

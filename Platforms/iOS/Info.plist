@@ -38,5 +38,13 @@
 		<true/>
 	</dict>
 
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to save media.</string>
+
+<key>UIFileSharingEnabled</key>
+<true/>
+<key>LSSupportsOpeningDocumentsInPlace</key>
+<true/>
+
 </dict>
 </plist>

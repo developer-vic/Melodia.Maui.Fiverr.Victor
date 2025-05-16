@@ -3,28 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MelodiaTherapy.Views.PlayerViews.PlayerSlider">
 
-    <VerticalStackLayout Spacing="10"
-                         HorizontalOptions="Center"
-                         MaximumWidthRequest="600">
-        <Slider x:Name="PlayerSliderControl"
-                Minimum="0"
-                Maximum="{Binding MaxDuration}"
-                Value="{Binding SliderValue, Mode=TwoWay}"
-                ThumbColor="Orange"
-                MaximumTrackColor="White"
-                MinimumTrackColor="White"
-                DragStarted="OnSliderDragStarted"
-                DragCompleted="OnSliderDragCompleted"/>
+       <VerticalStackLayout Spacing="10"
+                            HorizontalOptions="Center"
+                            MaximumWidthRequest="600">
+              <Slider x:Name="PlayerSliderControl"
+                      Minimum="0"
+                      Maximum="{Binding MaxDuration}"
+                      Value="{Binding SliderValue, Mode=TwoWay}"
+                      ThumbColor="#76cec5"
+                      MaximumTrackColor="White"
+                      MinimumTrackColor="White"
+                      DragStarted="OnSliderDragStarted"
+                      DragCompleted="OnSliderDragCompleted"/>
 
-        <Grid Padding="20"
-              ColumnDefinitions="*,*">
-            <Label Text="{Binding FormattedSliderValue}"
-                   FontSize="18"
-                   FontAttributes="None"/>
-            <Label Text="{Binding FormattedMaxDuration}"
-                   FontSize="18"
-                   FontAttributes="None"
-                   HorizontalOptions="End"/>
-        </Grid>
-    </VerticalStackLayout>
+              <Grid Padding="20"
+                    ColumnDefinitions="*,*">
+                     <Label Text="{Binding FormattedSliderValue}"
+                            FontSize="18"
+                            TextColor="White"
+                            FontAttributes="None"/>
+                     <Label Text="{Binding FormattedMaxDuration}"
+                            FontSize="18"
+                            TextColor="White"
+                            FontAttributes="None"
+                            HorizontalOptions="End"/>
+              </Grid>
+       </VerticalStackLayout>
 </ContentView>

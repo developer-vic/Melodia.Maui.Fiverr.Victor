@@ -41,13 +41,20 @@ namespace MelodiaTherapy.Views.PlayerViews
             }
         }
 
-        public double MaxDuration => SelectedListeningDuration?.Duration.TotalSeconds ?? 0;
+        public double MaxDuration
+        {
+            get => SelectedListeningDuration?.Duration.TotalSeconds ?? 0;
+        }
 
-        public string FormattedSliderValue =>
-            TimeSpan.FromSeconds(SliderValue).ToString(@"mm\:ss");
+        public string FormattedSliderValue
+        {
+            get => TimeSpan.FromSeconds(SliderValue).ToString(@"mm\:ss");
+        }
 
-        public string FormattedMaxDuration =>
-            SelectedListeningDuration?.Duration.ToString(@"mm\:ss") ?? "00:00";
+        public string FormattedMaxDuration
+        {
+            get => SelectedListeningDuration?.Duration.ToString(@"mm\:ss") ?? "00:00";
+        }
 
         public bool IsDragging { get; set; }
 

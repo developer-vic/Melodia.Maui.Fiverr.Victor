@@ -68,7 +68,7 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 	#endregion
 
 	#region observable properties
-	private ThemeModel? _selectedTheme => _controller?.SelectedTheme;
+	public ThemeModel? SelectedTheme { get => _controller?.SelectedTheme; }
 	private AmbianceModel? _selectedAmbiance => _controller?.SelectedAmbiance;
 	private TreatmentModel? _selectedTreatment => _controller?.SelectedTreatment;
 	private ListenDurationModel? _selectedDuration => _controller?.SelectedListeningDuration;
@@ -78,10 +78,10 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 	public bool ReadyToPlay
 	{
 		get => _readyToPlay;
-		private set { SetField(ref _readyToPlay, value); }
+		set { SetField(ref _readyToPlay, value); }
 	}
 
-	private bool _isPlaying; 
+	private bool _isPlaying;
 	public bool IsPlaying
 	{
 		get => _isPlaying;
@@ -92,11 +92,11 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public string PlayIcon => IsPlaying ? "pause_icon.png" : "play_icon.png";
+	public string PlayIcon { get => IsPlaying ? "pause_icon.png" : "play_icon.png"; }
 
 	public bool ShowTreatment => _selectedTreatment != TreatmentController.DefaultTreatmentModel;
 	public bool ShowAmbiance => _selectedAmbiance != AmbianceController.DefaultAmbianceModel;
-	public bool ShowTheme => _selectedTheme != ThemeController.DefaultThemeModel;
+	public bool ShowTheme => SelectedTheme != ThemeController.DefaultThemeModel;
 	#endregion
 
 	#region commands
@@ -177,7 +177,7 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 			_selectedAmbiance,
 			_selectedMode,
 			_selectedDuration,
-			_selectedTheme,
+			SelectedTheme,
 			_controller.TreatmentSound,
 			_controller.AmbianceSound,
 			_controller.ThemeSound);

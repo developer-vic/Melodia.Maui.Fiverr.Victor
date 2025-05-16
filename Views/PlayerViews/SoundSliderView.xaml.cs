@@ -8,7 +8,7 @@ public partial class SoundSliderView : ContentView
         BindableProperty.Create(nameof(Sound), typeof(double), typeof(SoundSliderView), 0.0, BindingMode.TwoWay);
 
     public static readonly BindableProperty TitleProperty =
-        BindableProperty.Create(nameof(Title), typeof(string), typeof(SoundSliderView), string.Empty);
+        BindableProperty.Create(nameof(Title), typeof(string), typeof(SoundSliderView), "Aucun nom");
 
     public static readonly BindableProperty IsReadyProperty =
         BindableProperty.Create(nameof(IsReady), typeof(bool), typeof(SoundSliderView), false);
@@ -40,6 +40,17 @@ public partial class SoundSliderView : ContentView
         set => SetValue(ProgressProperty, value);
     }
 
+    public bool NotIsReady
+    {
+        get => !IsReady;
+        set { }
+    }
+    public string SoundIcon
+    {
+        get => Sound > 0 ? "loud.png" : "mute.png";
+        set { }
+    }
+
     public ICommand ToggleSoundCommand { get; }
 
     public SoundSliderView()
@@ -49,6 +60,7 @@ public partial class SoundSliderView : ContentView
         ToggleSoundCommand = new Command(() =>
         {
             Sound = Sound > 0 ? 0 : 50;
+            
         });
 
         BindingContext = this;
