@@ -3,12 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:MelodiaTherapy.Views.PlayerViews"
              xmlns:viewmodels="clr-namespace:MelodiaTherapy.Pages"
+             NavigationPage.HasNavigationBar="False"
              x:DataType="viewmodels:PlayerPageViewModel"
              BackgroundColor="Black"
              Padding="10"
              x:Class="MelodiaTherapy.Pages.PlayerPage">
     <ScrollView VerticalScrollBarVisibility="Never">
-        <VerticalStackLayout>
+        <VerticalStackLayout Margin="10,0">
+            <Grid HorizontalOptions="Fill"
+                  ColumnDefinitions="*,*">
+                <Image Grid.Column="0"
+                       x:Name="imgBack"
+                       HorizontalOptions="Start"
+                       Source="back.png"
+                       WidthRequest="50">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="imgBackTapGestureRecognizer_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <HorizontalStackLayout Grid.Column="1"
+                                       HorizontalOptions="End">
+                    <Image Source="logo.png"
+                           VerticalOptions="Center"
+                           WidthRequest="80"/>
+                </HorizontalStackLayout>
+            </Grid>
+
             <Label Text="{Binding SelectedTheme.Name}"
                    FontSize="{OnPlatform Default=32, iOS=40}"
                    FontAttributes="None"
@@ -35,7 +55,7 @@
 
             <!-- <BoxView HeightRequest="{OnPlatform Default=20, iOS=30}"/> -->
 
-            <Grid HorizontalOptions="Center"> 
+            <Grid HorizontalOptions="Center">
                 <ImageButton Source="{Binding PlayIcon}"
                              IsVisible="{Binding ReadyToPlay}"
                              WidthRequest="{OnPlatform Default=48, iOS=60}"

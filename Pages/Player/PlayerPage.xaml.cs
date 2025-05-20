@@ -17,6 +17,11 @@ public partial class PlayerPage : ContentPage
 		InitializeComponent();
 		BindingContext = new PlayerPageViewModel();
 	}
+
+	private async void imgBackTapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+	{
+		await NavigationService.GoBackAsync();
+	}
 }
 
 public sealed class PlayerPageViewModel : INotifyPropertyChanged

@@ -5,6 +5,7 @@
     <StackLayout HorizontalOptions="Center">
         <Grid x:Name="ProgressGrid"
               ColumnSpacing="0"
+              Margin="10,20,10,0"
               VerticalOptions="Center"/>
     </StackLayout>
 </ContentView>

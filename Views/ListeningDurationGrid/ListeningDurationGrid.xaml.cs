@@ -91,7 +91,7 @@ namespace MelodiaTherapy.Views
                         new Label
                         {
                             Text = item.Description,
-                            FontSize = 14,
+                            FontSize = 12,
                             HorizontalTextAlignment = TextAlignment.Center,
                             TextColor = item.IsPremium && !AppData.EntitlementIsActive
                                 ? Colors.LightGray

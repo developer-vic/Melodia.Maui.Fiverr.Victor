@@ -60,7 +60,7 @@ public partial class SubPlayerViewModel : ObservableObject
         {
             DataType.Treatments => _melodia.TreatmentSound,
             DataType.Ambiances => _melodia.AmbianceSound,
-            DataType.Themes => _melodia.ThemeSound,
+            DataType.Themes => _melodia.ThemeSound, 
             _ => 0.0
         };
 

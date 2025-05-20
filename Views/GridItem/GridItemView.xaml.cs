@@ -75,7 +75,7 @@ public class GridItem : ContentView
                     }),
                     (nameLabel = new Label
                     {
-                        FontSize = 16,
+                        FontSize = 12,
                         FontAttributes = FontAttributes.Bold,
                         HorizontalTextAlignment = TextAlignment.Center,
                         TextColor = Colors.White,

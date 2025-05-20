@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MelodiaTherapy.Controllers;
 using MelodiaTherapy.Enums;
 using MelodiaTherapy.Helpers;
@@ -23,7 +24,7 @@ public partial class ProgressPage : ContentPage
 			{ 4, new ThemePage() }
 			//{ 5, new PlayerPage() }
 		};
-		
+
 		_controller = ServiceHelper.GetService<MelodiaController>();
 		if (_controller != null)
 		{
@@ -110,5 +111,10 @@ public partial class ProgressPage : ContentPage
 	private void OnOpenMenuClicked(object sender, EventArgs e)
 	{
 		ShowDrawer();
+	}
+
+	private async void imgBackTapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+	{
+		await NavigationService.GoBackAsync();
 	}
 }

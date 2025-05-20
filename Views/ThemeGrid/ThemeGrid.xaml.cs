@@ -42,7 +42,7 @@ namespace MelodiaTherapy.Views
                 Color = Colors.Purple
             };
 
-            int columnCount = DeviceDisplay.MainDisplayInfo.Width < 600 ? 3 : 4;
+            int columnCount = 3; // DeviceDisplay.MainDisplayInfo.Width < 600 ? 3 : 4;
             for (int i = 0; i < columnCount; i++)
                 _grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
@@ -134,7 +134,7 @@ namespace MelodiaTherapy.Views
                         new Label
                         {
                             Text = theme.Name,
-                            FontSize = 14,
+                            FontSize = 12,
                             TextColor = theme.IsPremium && !AppData.EntitlementIsActive ? Colors.Gray : Colors.White
                         },
                         new BoxView

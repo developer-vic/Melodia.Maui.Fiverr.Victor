@@ -18,9 +18,14 @@
                 <Grid HorizontalOptions="Fill"
                       ColumnDefinitions="*,*">
                     <Image Grid.Column="0"
+                           x:Name="imgBack"
                            HorizontalOptions="Start"
-                           Source="logo.png"
-                           WidthRequest="80"/>
+                           Source="back.png"
+                           WidthRequest="80">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="imgBackTapGestureRecognizer_Tapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                     <HorizontalStackLayout Grid.Column="1"
                                            HorizontalOptions="End">
                         <HorizontalStackLayout.GestureRecognizers>
@@ -35,10 +40,10 @@
                     </HorizontalStackLayout>
                 </Grid>
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
-                
+
                 <views:MyProgressIndicator x:Name="progressIndicator"/>
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
-                
+
                 <!-- Page Content Placeholder -->
                 <ContentView x:Name="CurrentPageView"/>
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
