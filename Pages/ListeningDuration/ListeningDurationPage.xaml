@@ -6,7 +6,7 @@
              BackgroundColor="Transparent"
              x:Class="MelodiaTherapy.Pages.ListeningDurationPage">
     <ScrollView VerticalScrollBarVisibility="Never">
-        <VerticalStackLayout>
+        <VerticalStackLayout Padding="16">
             <widget:TimerWidget/>
 
             <Label x:Name="TitleLabel"
