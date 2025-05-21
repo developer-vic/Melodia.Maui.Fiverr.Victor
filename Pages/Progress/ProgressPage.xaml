@@ -11,7 +11,8 @@
         <!-- Background Image -->
         <views:ThemeImage/>
 
-        <ScrollView VerticalScrollBarVisibility="Never">
+        <ScrollView VerticalScrollBarVisibility="Never"
+                Padding="10,20">
             <VerticalStackLayout HorizontalOptions="Center"
                                  MaximumWidthRequest="{x:StaticResource WidthConstraint}">
 
@@ -21,7 +22,8 @@
                            x:Name="imgBack"
                            HorizontalOptions="Start"
                            Source="back.png"
-                           WidthRequest="80">
+                           HeightRequest="40"
+                           WidthRequest="40">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="imgBackTapGestureRecognizer_Tapped"/>
                         </Image.GestureRecognizers>

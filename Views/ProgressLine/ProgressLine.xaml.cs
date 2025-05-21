@@ -19,7 +19,7 @@ public partial class ProgressLine : ContentView
 	void DrawLine()
 	{
 		LineStack.Children.Clear();
-		int lines = 5;
+		int lines = 3;//5
 		for (int i = 0; i < lines * 2 - 1; i++)
 		{
 			bool isBar = i % 2 == 0;
