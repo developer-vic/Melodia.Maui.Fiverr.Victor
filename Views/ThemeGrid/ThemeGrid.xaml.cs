@@ -54,20 +54,32 @@ namespace MelodiaTherapy.Views
             Content = layout;
         }
 
-        private async void LoadGridItems()
+        private void LoadGridItems()
         {
             _grid.Children.Clear();
-            int row = 0, col = 0;
 
             if (_themeController == null)
                 return;
 
             if (_themeController.Themes == null || _themeController.Themes.Count == 0)
-                _themeController.Themes = await _themeController.LoadDemoThemes();
+            {
+                Task.Factory.StartNew(async () =>
+                {
+                    _themeController.Themes = await _themeController.LoadDemoThemes();
+                    MainThread.BeginInvokeOnMainThread(() => InitThemesUI());
+                });
+            }
+            else InitThemesUI();
+        }
 
+        private void InitThemesUI()
+        {
+            if (_themeController == null)
+                return;
+
+            int row = 0, col = 0;
             int countToUse = _themeController.Themes.Count;
-            //if (countToUse > 1) countToUse = 10;
-
+            
             for (int i = 0; i < countToUse; i++)
             {
                 var theme = _themeController.Themes[i];
@@ -87,30 +99,14 @@ namespace MelodiaTherapy.Views
             }
         }
 
-        string FixMalformedUrl(string? urlSent)
-        {
-            if (string.IsNullOrWhiteSpace(urlSent)) return "image_not_supported.png";
-
-            urlSent = urlSent.ToLower(); // Fix common mistake: duplicated 'therapy'
-            string correctUrl = urlSent.Replace("melodiatherapytherapy.com", "melodiatherapy.com");
-
-            // var uri = new Uri(correctUrl); var encodedPath = string.Join("/", uri.AbsolutePath
-            //     .Split('/', StringSplitOptions.RemoveEmptyEntries)
-            //     .Select(Uri.EscapeDataString));
-            // correctUrl = $"{uri.Scheme}://{uri.Host}/{encodedPath}";
-
-            correctUrl = Uri.EscapeUriString(correctUrl);
-            return correctUrl;
-        }
-
 
         private View CreateThemeGridItem(ThemeModel theme, int index)
         {
-            var imagePath = ThemeController.GetLocalImagePath(theme);
+            //var imagePath = ThemeController.GetLocalImagePath(theme);
             var image = new Image
-            {
+            { 
                 Source = //File.Exists(imagePath) ? ImageSource.FromFile(imagePath) :
-                    FixMalformedUrl(theme.ImageUrl),
+                    ServiceHelper.FixMalformedUrl(theme.ImageUrl),
                 Aspect = Aspect.AspectFill,
                 HeightRequest = 150
             };
@@ -162,7 +158,7 @@ namespace MelodiaTherapy.Views
 
             if (_melodiaController == null || _languageController == null)
                 return;
-
+            
             if (theme == ThemeController.DefaultThemeModel &&
                 _melodiaController.SelectedTreatment == TreatmentController.DefaultTreatmentModel &&
                 _melodiaController.SelectedAmbiance == AmbianceController.DefaultAmbianceModel)
@@ -187,9 +183,6 @@ namespace MelodiaTherapy.Views
             _melodiaController.SelectedTheme = theme;
             Preferences.Set("themeId", index);
 
-            ShowLoading(true);
-            await Task.Delay(1000);
-            ShowLoading(false);
             _melodiaController.SetSoundsValue(null, 100);
             _melodiaController.GotoPlayerPage();
         }

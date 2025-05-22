@@ -25,16 +25,16 @@ public static class MauiProgram
 			});
 
 		// Register your services
-		builder.Services.AddTransient<LanguageController>();
+		builder.Services.AddSingleton<LanguageController>();
 		builder.Services.AddSingleton<MyAudioHandler>();
-		builder.Services.AddTransient<MelodiaController>();
-		builder.Services.AddTransient<TreatmentController>();
-		builder.Services.AddTransient<AmbianceController>();
-		builder.Services.AddTransient<ListenTypeController>();
-		builder.Services.AddTransient<ListenDurationController>();
-		builder.Services.AddTransient<ThemeController>();
-		builder.Services.AddTransient<DownloadController>();
-		builder.Services.AddTransient<DataController>();
+		builder.Services.AddSingleton<MelodiaController>();
+		builder.Services.AddSingleton<TreatmentController>();
+		builder.Services.AddSingleton<AmbianceController>();
+		builder.Services.AddSingleton<ListenTypeController>();
+		builder.Services.AddSingleton<ListenDurationController>();
+		builder.Services.AddSingleton<ThemeController>();
+		builder.Services.AddSingleton<DownloadController>();
+		builder.Services.AddSingleton<DataController>();
 	
 
 #if DEBUG

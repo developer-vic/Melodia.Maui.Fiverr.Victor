@@ -32,23 +32,35 @@ public class AmbianceGrid : ContentView
 		LoadAmbiances();
 	}
 
-	private async void LoadAmbiances()
+	private void LoadAmbiances()
 	{
 		int columns = isMobile ? 2 : 3;
 		grid.ColumnDefinitions.Clear();
+		
 		for (int i = 0; i < columns; i++)
 			grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
-		if (acontroller == null)
-			return;
-		if (melodia == null)
-			return;
-			
-		if (acontroller.Ambiances == null)
-			acontroller.Ambiances = await acontroller.LoadDemoAmbiances();
+		if (acontroller == null || melodia == null)
+			return; 
+
+		if (acontroller.Ambiances == null || acontroller.Ambiances.Count == 0)
+		{
+			Task.Factory.StartNew(async () =>
+			{
+				acontroller.Ambiances = await acontroller.LoadDemoAmbiances();
+				MainThread.BeginInvokeOnMainThread(() => InitAmbianceUI(columns));
+			});
+		}
+		else InitAmbianceUI(columns);
+	}
+
+	private void InitAmbianceUI(int columns)
+	{
+		if (acontroller?.Ambiances == null || melodia == null) return;
 
 		grid.RowDefinitions.Clear();
 		int rows = (int)Math.Ceiling(acontroller.Ambiances.Count / (double)columns);
+		
 		for (int i = 0; i < rows; i++)
 			grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 

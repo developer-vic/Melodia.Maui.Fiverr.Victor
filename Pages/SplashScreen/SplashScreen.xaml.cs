@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Services;
 using MelodiaTherapy.Stores;
 
@@ -7,6 +8,7 @@ namespace MelodiaTherapy.Pages
 	public partial class SplashScreen : ContentPage
 	{
 		private System.Timers.Timer? retryTimer;
+
 		private bool isConnected = false;
 		private bool retry = false;
 
@@ -17,7 +19,7 @@ namespace MelodiaTherapy.Pages
 			InitDataStream();
 		}
 
-		private async void CheckInternet()
+		private void CheckInternet()
 		{
 			var current = Connectivity.NetworkAccess;
 			isConnected = current == NetworkAccess.Internet;
@@ -26,23 +28,21 @@ namespace MelodiaTherapy.Pages
 
 			if (isConnected)
 			{
-				await InitStartData();
+				Task.Factory.StartNew(() =>
+				{
+					Dispatcher.StartTimer(TimeSpan.FromSeconds(2), InitStartData);
+				});
 			}
 		}
 
-		private async Task InitStartData()
+		private bool InitStartData()
 		{
-			try
-			{
-				DataService.DataReadyChanged += OnDataReadyChanged;
-				await DataService.InitStartData();
-				DataService.DataReadyChanged -= OnDataReadyChanged;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				await DisplayAlert("Error", ex.Message, "OK");
-			}
+			// DataService.DataReadyChanged += OnDataReadyChanged;
+			// DataService.InitStartData();
+			// DataService.DataReadyChanged -= OnDataReadyChanged;
+
+			OnDataReadyChanged(true);
+			return false;
 		}
 
 		private void OnDataReadyChanged(bool ready)
@@ -51,18 +51,15 @@ namespace MelodiaTherapy.Pages
 			{
 				retry = false;
 				retryTimer?.Stop();
-				if (Application.Current != null)
-				{
-					Application.Current.Windows[0].Page = LanguageStore.LanguageChosen
-						? new NavigationPage(new StartPage())
-						: new LanguagePage();
-				}
+
+				NavigationService.SetAsMainPage(LanguageStore.LanguageChosen
+					? new StartPage() : new LanguagePage());
 			}
 		}
 
 		private void InitDataStream()
-		{ 
-			retryTimer = new System.Timers.Timer(20000);
+		{
+			retryTimer = new System.Timers.Timer(5000);
 			retryTimer.Elapsed += (s, e) =>
 			{
 				retry = true;

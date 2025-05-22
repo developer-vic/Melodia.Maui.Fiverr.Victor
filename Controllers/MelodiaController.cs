@@ -17,6 +17,8 @@ using MelodiaTherapy.Helpers;
 using System.Net.Http.Headers;
 using MelodiaTherapy.Pages;
 using MelodiaTherapy.Enums;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace MelodiaTherapy.Controllers
 {
@@ -128,22 +130,36 @@ namespace MelodiaTherapy.Controllers
 
                 _inactivityTimer?.Dispose();
                 _inactivityTimer = new System.Timers.Timer(Constants.InactivityDuration.TotalMilliseconds);
-                _inactivityTimer.Elapsed += async (sender, args) =>
+                _inactivityTimer.Elapsed += (sender, args) =>
                 {
                     Console.WriteLine("PlayPause Timer expired");
 
-                    if (Application.Current?.Dispatcher != null)
-                        await Application.Current.Dispatcher.DispatchAsync(async () =>
-                        {
-                            await NavigationService.DisplayAlert(
-                                   "Session expirée",
-                                   $"Vous avez été inactif pendant {Constants.InactivityDuration.TotalMinutes} minutes",
-                                   "OK");
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
 
-                            StopPlayers();
-                            NavigationService.NavigateToStartPageAsync();
-                        });
-                };
+                        var snackbarOptions = new SnackbarOptions
+                        {
+                            BackgroundColor = Color.FromArgb("#76cec5"),
+                            TextColor = Colors.White,
+                            ActionButtonTextColor = Colors.Black,
+                            CornerRadius = 8
+                        };
+
+                        var snackbar = Snackbar.Make(
+                            $"Vous avez été inactif pendant {Constants.InactivityDuration.TotalMinutes} minutes",
+                            action: () => { /* optional dismiss action */ },
+                            actionButtonText: "OK",
+                            duration: TimeSpan.FromSeconds(5),
+                            visualOptions: snackbarOptions
+                        );
+                        
+                        StopPlayers();
+                        NavigationService.NavigateToStartPageAsync();
+                        
+                        await snackbar.Show();
+                    });
+               
+                 };
                 _inactivityTimer.AutoReset = false;
                 _inactivityTimer.Start();
             }
@@ -151,12 +167,12 @@ namespace MelodiaTherapy.Controllers
             {
                 if (_audioHandler.PrimaryPlayer.CurrentPosition == 0)
                 {
-                    await DataService.SendStatistics(
-                         SelectedTreatment,
-                         SelectedAmbiance,
-                         SelectedTheme,
-                         SelectedListeningDuration,
-                         SelectedListeningMode);
+                    DataService.SendStatistics(
+                        SelectedTreatment,
+                        SelectedAmbiance,
+                        SelectedTheme,
+                        SelectedListeningDuration,
+                        SelectedListeningMode);
                 }
                 ResumePlayer();
             }

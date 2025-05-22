@@ -23,14 +23,14 @@ namespace MelodiaTherapy.Helpers
             }
         }
 
-        internal async static void PushPage(ContentPage contentPage)
+        internal static void PushPage(ContentPage contentPage)
         {
             if (Application.Current?.Windows?.Count > 0)
             {
                 var mainPage = Application.Current?.Windows[0].Page;
                 if (mainPage is not null)
                 {
-                    await mainPage.Navigation.PushAsync(contentPage);
+                    mainPage.Navigation.PushAsync(contentPage);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace MelodiaTherapy.Helpers
         }
 
         internal static async Task ShowPopupAsync(ContentPage popup)
-        { 
+        {
             if (Application.Current?.Windows?.Count > 0)
             {
                 var mainPage = Application.Current?.Windows[0].Page;

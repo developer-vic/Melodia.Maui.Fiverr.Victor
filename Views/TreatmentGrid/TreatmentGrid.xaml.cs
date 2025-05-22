@@ -32,23 +32,36 @@ public class TreatmentGrid : ContentView
 		LoadTreatments();
 	}
 
-	private async void LoadTreatments()
+	private void LoadTreatments()
 	{
 		int columns = isMobile ? 2 : 3;
 		grid.ColumnDefinitions.Clear();
+		
 		for (int i = 0; i < columns; i++)
 			grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
 		if (tcontroller == null)
 			return;
-		if (melodia == null)
+
+		if (tcontroller.Treatments == null || tcontroller.Treatments.Count == 0)
+		{
+			Task.Factory.StartNew(async () =>
+			{
+				tcontroller.Treatments = await tcontroller.LoadDemoTreatments();
+				MainThread.BeginInvokeOnMainThread(() => InitTreatmentUI(columns));
+			});
+		}
+		else InitTreatmentUI(columns);
+	}
+
+	private void InitTreatmentUI(int columns)
+	{
+		if (tcontroller?.Treatments == null || melodia == null)
 			return;
-			
-		if (tcontroller.Treatments == null)
-			tcontroller.Treatments = await tcontroller.LoadDemoTreatments();
 
 		grid.RowDefinitions.Clear();
 		int rows = (int)Math.Ceiling(tcontroller.Treatments.Count / (double)columns);
+		
 		for (int i = 0; i < rows; i++)
 			grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 

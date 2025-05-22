@@ -34,6 +34,8 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 	public SoundDownloadController? AmbianceDownloadController { get; }
 	public SoundDownloadController? TreatmentDownloadController { get; }
 
+	public string? BGImagePath { get; set; }
+
 	public PlayerPageViewModel()
 	{
 		PlayCommand = new Command(OnPlay);
@@ -44,6 +46,8 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 
 		if (_controller == null || _audioHandler == null)
 			return;
+
+		BGImagePath = ServiceHelper.FixMalformedUrl(_controller.SelectedTheme.ImageUrl);
 
 		ThemeDownloadController = new SoundDownloadController(
 			_controller.SelectedTheme.SongGuid,

@@ -13,7 +13,7 @@ namespace MelodiaTherapy.Globals
 
         internal static void ReportNotTranslated(string code, string currentLanguage)
         { 
-            Task.Delay(2000); // TODO: Simulate report data
+            // TODO: Simulate report data
         }
     }
 }

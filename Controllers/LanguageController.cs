@@ -30,8 +30,8 @@ public class LanguageController
         Preferences.Set("language", language);
         Global.CurrentLanguage = language;
 
-        await DataService.DownloadJsonsAsync();
-        await DataService.LoadJsonsAsync();
+         DataService.DownloadJsonsAsync();
+         DataService.LoadJsonsAsync();
 
         Global.DataReady = true;
     }

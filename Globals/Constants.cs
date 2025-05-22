@@ -27,7 +27,7 @@ namespace MelodiaTherapy.Helpers
         public const string TermsAndConditionsLink = "https://www.melodiatherapy.com/fr/terms-of-service-fr/";
         public const string LegalNoticesLink = "https://www.melodiatherapy.com/fr/legal-notices-fr/";
 
-        public static readonly TimeSpan InactivityDuration = TimeSpan.FromMinutes(3);
+        public static readonly TimeSpan InactivityDuration = TimeSpan.FromSeconds(3);
         // public static readonly TimeSpan InactivityDuration = TimeSpan.FromSeconds(10);
 
         public static int? TreatmentId;

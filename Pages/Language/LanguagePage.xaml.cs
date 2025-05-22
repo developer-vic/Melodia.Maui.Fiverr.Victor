@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using MelodiaTherapy.Models;
 using System.Windows.Input;
 using Microsoft.Maui.Platform;
+using MelodiaTherapy.Helpers;
 
 namespace MelodiaTherapy.Pages
 {
@@ -16,10 +17,7 @@ namespace MelodiaTherapy.Pages
 
         private void OnStartClicked(object sender, EventArgs e)
         {
-            if (Application.Current != null)
-            {
-                Application.Current.Windows[0].Page = new NavigationPage(new StartPage());
-            }
+            NavigationService.SetAsMainPage(new StartPage());
         }
     }
 
@@ -50,21 +48,27 @@ namespace MelodiaTherapy.Pages
 #endif
         }
 
-        private async void InitData()
+        private void InitData()
         {
             DataService.DataReadyChanged += OnDataReadyChanged;
-            await DataService.InitStartData();
+            DataService.InitStartData();
             DataService.DataReadyChanged -= OnDataReadyChanged;
         }
 
-        private async void OnDataReadyChanged(bool ready)
+        private void OnDataReadyChanged(bool ready)
         {
             if (ready)
             {
-                var langs = await MobileServices.GetData<MobileLanguageVM>("languages.json");
-                Languages = new ObservableCollection<MobileLanguageVM>(langs);
-                SelectedLanguage = Languages.Count > 0 ? Languages[0] : new MobileLanguageVM() { Name = "Select Language" };
-                MainThread.BeginInvokeOnMainThread(() => ShowLoadingOverlay = false);
+                Task.Factory.StartNew(async () =>
+                {
+                    var langs = await MobileServices.GetData<MobileLanguageVM>("languages.json");
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Languages = new ObservableCollection<MobileLanguageVM>(langs);
+                        SelectedLanguage = Languages.Count > 0 ? Languages[0] : new MobileLanguageVM() { Name = "Select Language" };
+                        ShowLoadingOverlay = false;
+                    });
+                });
             }
         }
     }

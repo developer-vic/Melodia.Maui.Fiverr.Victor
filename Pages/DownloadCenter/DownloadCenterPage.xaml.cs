@@ -24,64 +24,70 @@ public partial class DownloadCenterPage : ContentPage
 		BinauralesCollectionView.ItemsSource = Binaurales;
 	}
 
-	async void LoadData()
+	void LoadData()
 	{
-		var treatments = await MobileServices.GetData<MobileTreatmentVM>("treatments.json");
-		var ambiances = await MobileServices.GetData<MobileAmbianceVM>("ambiances.json");
-		var durationList = await MobileServices.GetData<MobileDurationVM>("durations.json");
-		var themes = await MobileServices.GetData<MobileThemeVM>("themes.json");
-
-		ambiances.RemoveAt(ambiances.Count - 1);
-		foreach (var ambiance in ambiances)
+		Task.Factory.StartNew(async () =>
 		{
-			foreach (var duration in durationList)
-			{
-				Ambiances.Add(new SoundDownloadItemModel
-				{
-					Name = ambiance.Name,
-					SongGuid = ambiance.SongGuid.ToString(),
-					Duration = duration.Description,
-					Type = DataType.Ambiances
-				});
-			}
-		}
+			var treatments = await MobileServices.GetData<MobileTreatmentVM>("treatments.json");
+			var ambiances = await MobileServices.GetData<MobileAmbianceVM>("ambiances.json");
+			var durationList = await MobileServices.GetData<MobileDurationVM>("durations.json");
+			var themes = await MobileServices.GetData<MobileThemeVM>("themes.json");
 
-		themes.RemoveAt(themes.Count - 1);
-		foreach (var theme in themes)
-		{
-			foreach (var duration in durationList)
+			MainThread.BeginInvokeOnMainThread(() =>
 			{
-				Themes.Add(new SoundDownloadItemModel
+				ambiances.RemoveAt(ambiances.Count - 1);
+				foreach (var ambiance in ambiances)
 				{
-					Name = theme.Name,
-					SongGuid = theme.SongGuid.ToString(),
-					Duration = duration.Description,
-					Type = DataType.Themes
-				});
-			}
-		}
+					foreach (var duration in durationList)
+					{
+						Ambiances.Add(new SoundDownloadItemModel
+						{
+							Name = ambiance.Name,
+							SongGuid = ambiance.SongGuid.ToString(),
+							Duration = duration.Description,
+							Type = DataType.Ambiances
+						});
+					}
+				}
 
-		treatments.RemoveAt(treatments.Count - 1);
-		foreach (var treatment in treatments)
-		{
-			foreach (var duration in durationList)
-			{
-				Isochrones.Add(new SoundDownloadItemModel
+				themes.RemoveAt(themes.Count - 1);
+				foreach (var theme in themes)
 				{
-					Name = treatment.Name,
-					SongGuid = treatment.TreatmentUrls.Last().SongGuid.ToString(),
-					Duration = duration.Description,
-					Type = DataType.Treatments
-				});
+					foreach (var duration in durationList)
+					{
+						Themes.Add(new SoundDownloadItemModel
+						{
+							Name = theme.Name,
+							SongGuid = theme.SongGuid.ToString(),
+							Duration = duration.Description,
+							Type = DataType.Themes
+						});
+					}
+				}
 
-				Binaurales.Add(new SoundDownloadItemModel
+				treatments.RemoveAt(treatments.Count - 1);
+				foreach (var treatment in treatments)
 				{
-					Name = treatment.Name,
-					SongGuid = treatment.TreatmentUrls.First().SongGuid.ToString(),
-					Duration = duration.Description,
-					Type = DataType.Treatments
-				});
-			}
-		}
+					foreach (var duration in durationList)
+					{
+						Isochrones.Add(new SoundDownloadItemModel
+						{
+							Name = treatment.Name,
+							SongGuid = treatment.TreatmentUrls.Last().SongGuid.ToString(),
+							Duration = duration.Description,
+							Type = DataType.Treatments
+						});
+
+						Binaurales.Add(new SoundDownloadItemModel
+						{
+							Name = treatment.Name,
+							SongGuid = treatment.TreatmentUrls.First().SongGuid.ToString(),
+							Duration = duration.Description,
+							Type = DataType.Treatments
+						});
+					}
+				}
+			});
+		});
 	}
 }

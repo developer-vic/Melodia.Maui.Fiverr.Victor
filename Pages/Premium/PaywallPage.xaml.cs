@@ -33,7 +33,7 @@ public class PaywallViewModel : BaseViewModel
 	private bool _isLoading;
 	private bool _isConnected;
 	private string _promoCode = string.Empty;
-	private Dictionary<string, string> _languageResources= new();
+	private Dictionary<string, string> _languageResources = new();
 	private ObservableCollection<string> _features = new();
 	private double _discount;
 
@@ -147,137 +147,139 @@ public class PaywallViewModel : BaseViewModel
 
 		// DEOMO DATA 
 		var packageViewModelsDemo = new List<PackageViewModel>
-        {
-            new PackageViewModel
-            {
-                Package = new Package
-                {
-                    Identifier = "P1",
-                    OfferingIdentifier = "O1",
-                    Price = 4.99,
-                    CurrencyCode = "USD",
-                    SubscriptionPeriod = "P1M",
-                    PriceFormatted = "$4.99"
-                },
-                Description = "Monthly Subscription",
-                IsSelected = true,
-                CurrencyCode = "USD"
-            },
-            new PackageViewModel
-            {
-                Package = new Package
-                {
-                    Identifier = "P2",
-                    OfferingIdentifier = "O1",
-                    Price = 49.99,
-                    CurrencyCode = "USD",
-                    SubscriptionPeriod = "P3M",
-                    PriceFormatted = "$49.99"
-                },
-                Description = "Annual Subscription",
-                IsSelected = false,
-                CurrencyCode = "USD",
-                Discount = 9.89,
-                IsPopular = true
-            }
-        };
+		{
+			new PackageViewModel
+			{
+				Package = new Package
+				{
+					Identifier = "P1",
+					OfferingIdentifier = "O1",
+					Price = 4.99,
+					CurrencyCode = "USD",
+					SubscriptionPeriod = "P1M",
+					PriceFormatted = "$4.99"
+				},
+				Description = "Monthly Subscription",
+				IsSelected = true,
+				CurrencyCode = "USD"
+			},
+			new PackageViewModel
+			{
+				Package = new Package
+				{
+					Identifier = "P2",
+					OfferingIdentifier = "O1",
+					Price = 49.99,
+					CurrencyCode = "USD",
+					SubscriptionPeriod = "P3M",
+					PriceFormatted = "$49.99"
+				},
+				Description = "Annual Subscription",
+				IsSelected = false,
+				CurrencyCode = "USD",
+				Discount = 9.89,
+				IsPopular = true
+			}
+		};
 
 		DisplayPackages = new ObservableCollection<PackageViewModel>(packageViewModelsDemo);
 		SelectedPackage = DisplayPackages[0]; return; //TODO remove this line
 													  // Clear previous CODES
 
-		try
-		{
-			IsLoading = true;
-
-			// Get available packages from IAP service
-			var packages = await InAppPurchaseService.GetAvailablePackagesAsync();
-
-			// Get subscriptions with promo code applied if specified
-			var subscriptions = await SubscriptionService.GetSubscriptionsAsync(promoCode);
-
-			DisplayPackages.Clear();
-
-			// Create package view models from subscription and package data
-			var packageViewModels = new List<PackageViewModel>();
-			foreach (var subscription in subscriptions)
-			{
-				var offeringId = subscription.SubscriptionCode.Split('/')[0];
-				var packageId = subscription.SubscriptionCode.Split('/')[1];
-
-				string? parentCode = subscription.ParentSubscriptionCode;
-				Package? parentPackage = null;
-
-				if (!string.IsNullOrEmpty(parentCode))
+		/*
+			try
 				{
-					var parentPackageId = parentCode.Split('/')[1];
-					var parentOfferingId = parentCode.Split('/')[0];
-					parentPackage = packages.FirstOrDefault(p =>
-						p.Identifier == parentPackageId && p.OfferingIdentifier == parentOfferingId);
-				}
+					IsLoading = true;
 
-				var package = packages.FirstOrDefault(p =>
-					p.Identifier == packageId && p.OfferingIdentifier == offeringId);
+					// Get available packages from IAP service
+					var packages = await InAppPurchaseService.GetAvailablePackagesAsync();
 
-				if (package != null)
-				{
-					var packageViewModel = new PackageViewModel
+					// Get subscriptions with promo code applied if specified
+					var subscriptions = await SubscriptionService.GetSubscriptionsAsync(promoCode);
+
+					DisplayPackages.Clear();
+
+					// Create package view models from subscription and package data
+					var packageViewModels = new List<PackageViewModel>();
+					foreach (var subscription in subscriptions)
 					{
-						Package = package,
-						Description = l.GetLabel(subscription.Description ?? string.Empty),
-						OldPrice = parentPackage?.Price,
-						IsSelected = false
-					};
+						var offeringId = subscription.SubscriptionCode.Split('/')[0];
+						var packageId = subscription.SubscriptionCode.Split('/')[1];
 
-					packageViewModels.Add(packageViewModel);
+						string? parentCode = subscription.ParentSubscriptionCode;
+						Package? parentPackage = null;
+
+						if (!string.IsNullOrEmpty(parentCode))
+						{
+							var parentPackageId = parentCode.Split('/')[1];
+							var parentOfferingId = parentCode.Split('/')[0];
+							parentPackage = packages.FirstOrDefault(p =>
+								p.Identifier == parentPackageId && p.OfferingIdentifier == parentOfferingId);
+						}
+
+						var package = packages.FirstOrDefault(p =>
+							p.Identifier == packageId && p.OfferingIdentifier == offeringId);
+
+						if (package != null)
+						{
+							var packageViewModel = new PackageViewModel
+							{
+								Package = package,
+								Description = l.GetLabel(subscription.Description ?? string.Empty),
+								OldPrice = parentPackage?.Price,
+								IsSelected = false
+							};
+
+							packageViewModels.Add(packageViewModel);
+						}
+					}
+
+					// Sort by price
+					packageViewModels = packageViewModels
+						.OrderBy(p => p.Package.Price)
+						.ToList();
+
+					// Mark the last package as popular (highest price)
+					if (packageViewModels.Count > 0)
+					{
+						packageViewModels.Last().IsPopular = true;
+					}
+
+					// Calculate discount for popular package
+					if (packageViewModels.Count >= 2)
+					{
+						double price1 = packageViewModels.First().Package.Price;
+						double price2 = packageViewModels.Last().Package.Price;
+						double valueRatio = ValueInMonths(packageViewModels.Last().Package) /
+										   ValueInMonths(packageViewModels.First().Package);
+
+						Discount = valueRatio * price1 - price2;
+						packageViewModels.Last().Discount = Discount;
+						packageViewModels.Last().CurrencyCode = packageViewModels.Last().Package.CurrencyCode;
+					}
+
+					// Add to UI collection
+					foreach (var packageViewModel in packageViewModels)
+					{
+						DisplayPackages.Add(packageViewModel);
+					}
+
+					// Select last package by default
+					if (DisplayPackages.Count > 0)
+					{
+						SelectedPackage = DisplayPackages.Last();
+						SelectedPackage.IsSelected = true;
+					}
 				}
-			}
-
-			// Sort by price
-			packageViewModels = packageViewModels
-				.OrderBy(p => p.Package.Price)
-				.ToList();
-
-			// Mark the last package as popular (highest price)
-			if (packageViewModels.Count > 0)
-			{
-				packageViewModels.Last().IsPopular = true;
-			}
-
-			// Calculate discount for popular package
-			if (packageViewModels.Count >= 2)
-			{
-				double price1 = packageViewModels.First().Package.Price;
-				double price2 = packageViewModels.Last().Package.Price;
-				double valueRatio = ValueInMonths(packageViewModels.Last().Package) /
-								   ValueInMonths(packageViewModels.First().Package);
-
-				Discount = valueRatio * price1 - price2;
-				packageViewModels.Last().Discount = Discount;
-				packageViewModels.Last().CurrencyCode = packageViewModels.Last().Package.CurrencyCode;
-			}
-
-			// Add to UI collection
-			foreach (var packageViewModel in packageViewModels)
-			{
-				DisplayPackages.Add(packageViewModel);
-			}
-
-			// Select last package by default
-			if (DisplayPackages.Count > 0)
-			{
-				SelectedPackage = DisplayPackages.Last();
-				SelectedPackage.IsSelected = true;
-			}
-		}
-		catch (Exception ex)
-		{
-			await NavigationService.DisplayAlert("Error", ex.Message, l.GetLabel("OK"));
-		}
-		finally
-		{
-			IsLoading = false;
-		}
+				catch (Exception ex)
+				{
+					await NavigationService.DisplayAlert("Error", ex.Message, l.GetLabel("OK"));
+				}
+				finally
+				{
+					IsLoading = false;
+				}
+		*/
 	}
 
 	private double ValueInMonths(Package package)
@@ -343,7 +345,7 @@ public class PaywallViewModel : BaseViewModel
 				Preferences.Set("subscriptionCode", AppData.SubscriptionCode);
 
 				// Send device info to server
-				await DataService.SendDeviceInfoAsync();
+				DataService.SendDeviceInfoAsync();
 
 				// Navigate to start page if premium is active
 				if (AppData.IsPremium)

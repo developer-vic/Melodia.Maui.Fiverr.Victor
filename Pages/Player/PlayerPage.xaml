@@ -9,68 +9,73 @@
              Padding="10"
              x:Class="MelodiaTherapy.Pages.PlayerPage">
     <ScrollView VerticalScrollBarVisibility="Never">
-        <VerticalStackLayout Margin="10,0">
-            <Grid HorizontalOptions="Fill"
-                  ColumnDefinitions="*,*">
-                <Image Grid.Column="0"
-                       x:Name="imgBack"
-                       HorizontalOptions="Start"
-                       Source="back.png"
-                       WidthRequest="50">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="imgBackTapGestureRecognizer_Tapped"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <HorizontalStackLayout Grid.Column="1"
-                                       HorizontalOptions="End">
-                    <Image Source="logo.png"
-                           VerticalOptions="Center"
-                           WidthRequest="80"/>
-                </HorizontalStackLayout>
-            </Grid>
+        <Grid>
+            <Image Source="{Binding BGImagePath}"
+                   Aspect="AspectFill"
+                   Opacity=".7"/>
 
-            <Label Text="{Binding SelectedTheme.Name}"
-                   FontSize="{OnPlatform Default=32, iOS=40}"
-                   FontAttributes="None"
-                   HorizontalOptions="Center"
-                   TextColor="White"/>
+            <VerticalStackLayout Margin="10,0">
+                <Grid HorizontalOptions="Fill"
+                      ColumnDefinitions="*,*">
+                    <Image Grid.Column="0"
+                           x:Name="imgBack"
+                           HorizontalOptions="Start"
+                           Source="back.png"
+                           WidthRequest="50">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="imgBackTapGestureRecognizer_Tapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <HorizontalStackLayout Grid.Column="1"
+                                           HorizontalOptions="End">
+                        <Image Source="logo.png"
+                               VerticalOptions="Center"
+                               WidthRequest="80"/>
+                    </HorizontalStackLayout>
+                </Grid>
 
-            <BoxView HeightRequest="2"
-                     WidthRequest="{OnPlatform Default=150, iOS=250}"
-                     BackgroundColor="White"
-                     Opacity="0.6"
-                     HorizontalOptions="Center"
-                     Margin="0,20"/>
+                <Label Text="{Binding SelectedTheme.Name}"
+                       FontSize="{OnPlatform Default=32, iOS=40}"
+                       FontAttributes="None"
+                       HorizontalOptions="Center"
+                       TextColor="White"/>
 
-            <views:PlayerSlider IsVisible="{Binding ReadyToPlay}"/>
+                <BoxView HeightRequest="2"
+                         WidthRequest="{OnPlatform Default=150, iOS=250}"
+                         BackgroundColor="White"
+                         Opacity="0.6"
+                         HorizontalOptions="Center"
+                         Margin="0,20"/>
 
-            <!-- <BoxView HeightRequest="{OnPlatform Default=40, iOS=60}"/> -->
+                <views:PlayerSlider IsVisible="{Binding ReadyToPlay}"/>
 
-            <views:SubPlayerView IsVisible="{Binding ShowTreatment}"
-                                 BindingContext="{Binding TreatmentSubPlayer}"/>
-            <views:SubPlayerView IsVisible="{Binding ShowAmbiance}"
-                                 BindingContext="{Binding AmbianceSubPlayer}"/>
-            <views:SubPlayerView IsVisible="{Binding ShowTheme}"
-                                 BindingContext="{Binding ThemeSubPlayer}"/>
+                <!-- <BoxView HeightRequest="{OnPlatform Default=40, iOS=60}"/> -->
 
-            <!-- <BoxView HeightRequest="{OnPlatform Default=20, iOS=30}"/> -->
+                <views:SubPlayerView IsVisible="{Binding ShowTreatment}"
+                                     BindingContext="{Binding TreatmentSubPlayer}"/>
+                <views:SubPlayerView IsVisible="{Binding ShowAmbiance}"
+                                     BindingContext="{Binding AmbianceSubPlayer}"/>
+                <views:SubPlayerView IsVisible="{Binding ShowTheme}"
+                                     BindingContext="{Binding ThemeSubPlayer}"/>
 
-            <Grid HorizontalOptions="Center">
-                <ImageButton Source="{Binding PlayIcon}"
-                             IsVisible="{Binding ReadyToPlay}"
+                <!--  
+                    Source="{Binding PlayIcon}"
+                    IsVisible="{Binding ReadyToPlay}"
+                -->
+                <ImageButton Source="play_icon.png"
                              WidthRequest="{OnPlatform Default=48, iOS=60}"
                              HeightRequest="{OnPlatform Default=48, iOS=60}"
                              BackgroundColor="Transparent"
+                             HorizontalOptions="Center"
+                             Margin="0,20"
                              Command="{Binding PlayCommand}"/>
-            </Grid>
 
-            <!-- <StackLayout HorizontalOptions="End"
-                         Padding="0,18,7,0">
                 <Button Text="Save This Session"
                         Command="{Binding SaveSessionCommand}"
+                        HorizontalOptions="End"
                         BackgroundColor="#00FFCC"
                         TextColor="Black"/>
-            </StackLayout> -->
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
     </ScrollView>
 </ContentPage>
