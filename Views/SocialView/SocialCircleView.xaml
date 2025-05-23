@@ -17,7 +17,7 @@
             <Image Source="{Binding IconGlyph, Source={x:Reference this}}"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
-                   WidthRequest="{OnIdiom Phone=20, Tablet=48, Default=20}"/>
+                   WidthRequest="20"/>
         </Border>
     </ContentView.Content>
 </ContentView>

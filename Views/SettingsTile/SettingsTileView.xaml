@@ -26,7 +26,7 @@
                        Source="{Binding IconGlyph, Source={x:Reference this}}"
                        VerticalOptions="Center"
                        HorizontalOptions="Center"
-                       WidthRequest="{OnIdiom Phone=35, Tablet=48, Default=35}"/>
+                       WidthRequest="35"/>
 
                 <!-- Text Content -->
                 <StackLayout Grid.Column="1"
@@ -34,11 +34,11 @@
                              VerticalOptions="Center">
                     <Label Text="{Binding Title, Source={x:Reference this}}"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"/>
+                           FontSize="16"/>
 
                     <Label Text="{Binding Description, Source={x:Reference this}}"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=14, Tablet=20, Default=14}"/>
+                           FontSize="14"/>
                 </StackLayout>
             </Grid>
         </Border>

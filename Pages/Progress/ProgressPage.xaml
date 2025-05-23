@@ -6,13 +6,13 @@
              BackgroundColor="#17142b"
              NavigationPage.HasNavigationBar="False"
              x:Class="MelodiaTherapy.Pages.ProgressPage"
-             Title="ProgressPage">
+             Title="Go Back">
     <Grid>
         <!-- Background Image -->
         <views:ThemeImage/>
 
         <ScrollView VerticalScrollBarVisibility="Never"
-                Padding="15">
+                    Padding="15">
             <VerticalStackLayout HorizontalOptions="Fill"
                                  MaximumWidthRequest="{x:StaticResource WidthConstraint}">
 
@@ -47,23 +47,29 @@
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
 
                 <!-- Page Content Placeholder -->
-                <ContentView x:Name="CurrentPageView"/>
+                <ContentView x:Name="CurrentPageView">
+                    <ActivityIndicator IsRunning="True"
+                                       IsVisible="True"
+                                       Margin="0,100,0,0"
+                                       Color="White"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>
+                </ContentView>
+
                 <widgets:VerticalSpacer HeightRequest="{OnPlatform Android=16, Default=12}"/>
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Drawer Container - will be hidden by default, shown when menu button is clicked -->
         <Grid x:Name="menuDrawerContainer"
               BackgroundColor="#80000000"
               IsVisible="False">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnDrawerClickOut"/>
             </Grid.GestureRecognizers>
-
-            <!-- Menu Drawer - positioned on the right -->
-            <views:MenuDrawerView x:Name="menuDrawerView"
-                                  HorizontalOptions="End"
-                                  WidthRequest="{OnIdiom Phone=320, Tablet=480, Default=320}"/>
+            <ContentView x:Name="menuDrawerView"
+                         HorizontalOptions="End"
+                         WidthRequest="320"/>
+            <!-- <views:MenuDrawerView/> -->
         </Grid>
     </Grid>
 </ContentPage>

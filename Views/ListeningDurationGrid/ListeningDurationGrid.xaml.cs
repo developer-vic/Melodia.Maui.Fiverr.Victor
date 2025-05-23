@@ -11,18 +11,25 @@ namespace MelodiaTherapy.Views
 {
     public class ListeningDurationGrid : ContentView
     {
-        private readonly MelodiaController? melodia;
-        private readonly ListenDurationController? ldcontroller;
+        private MelodiaController? melodia;
+        private ListenDurationController? ldcontroller;
 
         private ObservableCollection<ListenDurationModel>? _listenDurations;
         private ListenDurationModel? _selectedDuration;
-        private readonly Grid _grid;
+        private Grid? _grid;
 
         public ListeningDurationGrid()
         {
-            melodia = ServiceHelper.GetService<MelodiaController>();
-            ldcontroller = ServiceHelper.GetService<ListenDurationController>();
+            Task.Factory.StartNew(() =>
+            {
+                melodia = ServiceHelper.GetService<MelodiaController>();
+                ldcontroller = ServiceHelper.GetService<ListenDurationController>();
+                InitData();
+            });
+        }
 
+        private void InitData()
+        {
             _grid = new Grid
             {
                 ColumnSpacing = 12,
@@ -34,7 +41,8 @@ namespace MelodiaTherapy.Views
 
         private async void InitiateData()
         {
-            if (ldcontroller == null || melodia == null) return;
+            if (ldcontroller == null || melodia == null || _grid == null)
+                return;
 
             var tempDurations = await ldcontroller.LoadDemoListeningDuration();
             _listenDurations = new ObservableCollection<ListenDurationModel>(tempDurations);
@@ -112,7 +120,7 @@ namespace MelodiaTherapy.Views
             };
 
             var tapGesture = new TapGestureRecognizer();
-            tapGesture.Tapped += async (s, e) =>
+            tapGesture.Tapped += (s, e) =>
             {
                 if (item.IsPremium && !AppData.EntitlementIsActive)
                 {

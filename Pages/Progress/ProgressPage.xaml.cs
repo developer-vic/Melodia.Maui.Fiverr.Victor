@@ -6,15 +6,25 @@ using MelodiaTherapy.Models;
 
 namespace MelodiaTherapy.Pages;
 
-public partial class ProgressPage : ContentPage
+public partial class ProgressPage : ContentPage, IMenuDrawerVM
 {
-	private readonly MelodiaController? _controller;
-	private readonly Dictionary<int, View> _pages;
+	private MelodiaController? _controller;
+	private Dictionary<int, View>? _pages;
 
 	public ProgressPage(object? navData = null)
 	{
 		InitializeComponent();
+		Task.Factory.StartNew(() =>
+		{
+			MainThread.BeginInvokeOnMainThread(() =>
+				menuDrawerView.Content = new Views.MenuDrawerView()
+			);
+			InitData(navData);
+		});
+	}
 
+	private void InitData(object? navData)
+	{
 		_pages = new()
 		{
 			{ 0, new TreatmentPage() },
@@ -28,8 +38,20 @@ public partial class ProgressPage : ContentPage
 		_controller = ServiceHelper.GetService<MelodiaController>();
 		if (_controller != null)
 		{
-			_controller.PageChanged += OnPageChanged;
-			progressIndicator.Controller = _controller;
+			MainThread.BeginInvokeOnMainThread(() =>
+			{
+				if (_controller.PageChanged == null)
+					_controller.PageChanged += OnPageChanged;
+				else
+				{
+					_controller.PageChanged -= OnPageChanged;
+					_controller.PageChanged = null;
+					_controller.PageChanged += OnPageChanged;
+					OnPageChanged(_controller.SelectedPage);
+				}
+
+				progressIndicator.Controller = _controller;
+			});
 
 			if (navData is Dictionary<string, object> data)
 			{
@@ -42,23 +64,30 @@ public partial class ProgressPage : ContentPage
 				_controller.SetSoundsValue(DataType.Treatments, (double)data["Treatment Volume"]);
 				_controller.SetSoundsValue(DataType.Themes, (double)data["Theme Volume"]);
 
+				_controller.SelectedPage = 4;
+
 				MainThread.BeginInvokeOnMainThread(() =>
 				{
-					_controller.SelectedPage = 5;
-					CurrentPageView.Content = _pages[5];
+					CurrentPageView.Content = _pages[4];
 				});
 			}
 			else
 			{
 				_controller.SetSoundsValue(null, 100);
 				_controller.SelectedPage = 0;
-				CurrentPageView.Content = _pages[0];
+
+				MainThread.BeginInvokeOnMainThread(() =>
+				{
+					CurrentPageView.Content = _pages[0];
+				});
 			}
 		}
 	}
 
 	private void OnPageChanged(int pageIndex)
 	{
+		if (_pages == null) return;
+
 		if (_pages.TryGetValue(pageIndex, out var page))
 		{
 			CurrentPageView.Content = page;
@@ -74,20 +103,14 @@ public partial class ProgressPage : ContentPage
 	private async void GoBack()
 	{
 		if (_controller != null) await _controller.GoBack();
-		else await NavigationService.GoBackAsync();
+		else NavigationService.NavigateToStartPageAsync();
 	}
 
 	public void OnDrawerCloseClicked()
 	{
 		HideDrawer();
 	}
-
-	private void OnDrawerClickOut(object sender, EventArgs e)
-	{
-		HideDrawer();
-	}
-
-	private void ShowDrawer()
+	public void ShowDrawer()
 	{
 		// Animate drawer to slide in from right
 		menuDrawerContainer.TranslationX = this.Width;
@@ -96,10 +119,8 @@ public partial class ProgressPage : ContentPage
 		menuDrawerContainer.FadeTo(1, 250, Easing.CubicOut);
 		menuDrawerContainer.TranslateTo(0, 0, 250, Easing.CubicOut);
 	}
-
 	public async void HideDrawer()
 	{
-		// Animate drawer to slide out to right
 		await Task.WhenAll(
 			menuDrawerContainer.FadeTo(0, 250, Easing.CubicIn),
 			menuDrawerContainer.TranslateTo(this.Width, 0, 250, Easing.CubicIn)
@@ -108,13 +129,17 @@ public partial class ProgressPage : ContentPage
 		menuDrawerContainer.IsVisible = false;
 	}
 
+	private void OnDrawerClickOut(object sender, EventArgs e)
+	{
+		HideDrawer();
+	}
 	private void OnOpenMenuClicked(object sender, EventArgs e)
 	{
 		ShowDrawer();
 	}
 
-	private async void imgBackTapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+	private void imgBackTapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
 	{
-		await NavigationService.GoBackAsync();
+		NavigationService.NavigateToStartPageAsync();
 	}
 }

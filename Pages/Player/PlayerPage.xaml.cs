@@ -24,23 +24,31 @@ public partial class PlayerPage : ContentPage
 	}
 }
 
-public sealed class PlayerPageViewModel : INotifyPropertyChanged
+public sealed class PlayerPageViewModel : BaseViewModel
 {
 	#region fields & ctor
-	private readonly MelodiaController? _controller;
-	private readonly MyAudioHandler? _audioHandler;
+	private MelodiaController? _controller;
+	private MyAudioHandler? _audioHandler;
 
-	public SoundDownloadController? ThemeDownloadController { get; }
-	public SoundDownloadController? AmbianceDownloadController { get; }
-	public SoundDownloadController? TreatmentDownloadController { get; }
+	public SoundDownloadController? ThemeDownloadController { get; set; }
+	public SoundDownloadController? AmbianceDownloadController { get; set; }
+	public SoundDownloadController? TreatmentDownloadController { get; set; }
 
-	public string? BGImagePath { get; set; }
+    public string? BGImagePath { get => bGImagePath; set { SetProperty(ref bGImagePath, value); } }
 
-	public PlayerPageViewModel()
+    public PlayerPageViewModel()
 	{
 		PlayCommand = new Command(OnPlay);
 		SaveSessionCommand = new Command(OnSaveSession);
 
+		Task.Factory.StartNew(() =>
+		{
+			InitData();
+		});
+	}
+
+	private void InitData()
+	{
 		_controller = ServiceHelper.GetService<MelodiaController>();
 		_audioHandler = ServiceHelper.GetService<MyAudioHandler>();
 
@@ -91,7 +99,9 @@ public sealed class PlayerPageViewModel : INotifyPropertyChanged
 	}
 
 	private bool _isPlaying;
-	public bool IsPlaying
+    private string? bGImagePath;
+
+    public bool IsPlaying
 	{
 		get => _isPlaying;
 		private set

@@ -112,19 +112,16 @@ Melodia fait de votre bien-être sa priorité."
                      </VerticalStackLayout>
               </ScrollView>
 
-
-              <!-- Drawer Container - will be hidden by default, shown when menu button is clicked -->
               <Grid x:Name="menuDrawerContainer"
                     BackgroundColor="#80000000"
                     IsVisible="False">
                      <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnDrawerClickOut"/>
                      </Grid.GestureRecognizers>
-
-                     <!-- Menu Drawer - positioned on the right -->
-                     <views:MenuDrawerView x:Name="menuDrawerView"
-                                           HorizontalOptions="End"
-                                           WidthRequest="{OnIdiom Phone=320, Tablet=480, Default=320}"/>
+                     <ContentView x:Name="menuDrawerView"
+                                   HorizontalOptions="End"
+                                   WidthRequest="320"/>
+                     <!-- <views:MenuDrawerView/> -->
               </Grid>
        </Grid>
 </ContentPage>

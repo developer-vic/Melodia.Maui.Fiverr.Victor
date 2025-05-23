@@ -7,17 +7,24 @@ namespace MelodiaTherapy.Views;
 
 public class ListeningGrid : ContentView
 {
-    private readonly MelodiaController? melodia;
-    private readonly ListenTypeController? ltcontroller;
-    private readonly bool isMobile;
-    private readonly Grid grid;
+    private MelodiaController? melodia;
+    private ListenTypeController? ltcontroller;
+    private bool isMobile;
+    private Grid? grid;
 
     public ListeningGrid()
     {
-        melodia = ServiceHelper.GetService<MelodiaController>();
-        ltcontroller = ServiceHelper.GetService<ListenTypeController>();
-        isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+        Task.Factory.StartNew(() =>
+        {
+            melodia = ServiceHelper.GetService<MelodiaController>();
+            ltcontroller = ServiceHelper.GetService<ListenTypeController>();
+            isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+            InitData();
+        });
+    }
 
+    private void InitData()
+    {
         grid = new Grid
         {
             ColumnSpacing = 12,
@@ -34,6 +41,9 @@ public class ListeningGrid : ContentView
 
     private async void LoadListenTypes()
     {
+        if (grid == null)
+            return;
+
         int columns = isMobile ? 2 : 3;
         grid.ColumnDefinitions.Clear();
         for (int i = 0; i < columns; i++)

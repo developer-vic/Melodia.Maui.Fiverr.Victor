@@ -10,19 +10,19 @@ namespace MelodiaTherapy.Pages
 		{
 			InitializeComponent();
 			BindingContext = new StartPageVM();
+			Task.Factory.StartNew(() =>
+			{
+				MainThread.BeginInvokeOnMainThread(() =>
+					menuDrawerView.Content = new Views.MenuDrawerView()
+				);
+			});
 		}
 
 		public void OnDrawerCloseClicked()
 		{
 			HideDrawer();
 		}
-
-		private void OnDrawerClickOut(object sender, EventArgs e)
-		{
-			HideDrawer();
-		}
-
-		private void ShowDrawer()
+		public void ShowDrawer()
 		{
 			// Animate drawer to slide in from right
 			menuDrawerContainer.TranslationX = this.Width;
@@ -31,10 +31,8 @@ namespace MelodiaTherapy.Pages
 			menuDrawerContainer.FadeTo(1, 250, Easing.CubicOut);
 			menuDrawerContainer.TranslateTo(0, 0, 250, Easing.CubicOut);
 		}
-
 		public async void HideDrawer()
 		{
-			// Animate drawer to slide out to right
 			await Task.WhenAll(
 				menuDrawerContainer.FadeTo(0, 250, Easing.CubicIn),
 				menuDrawerContainer.TranslateTo(this.Width, 0, 250, Easing.CubicIn)
@@ -43,11 +41,15 @@ namespace MelodiaTherapy.Pages
 			menuDrawerContainer.IsVisible = false;
 		}
 
+
+		private void OnDrawerClickOut(object sender, EventArgs e)
+		{
+			HideDrawer();
+		}
 		private void OnOpenMenuClicked(object sender, EventArgs e)
 		{
 			ShowDrawer();
 		}
-
 		private async void OnStartClicked(object sender, EventArgs e)
 		{
 			try
@@ -56,7 +58,7 @@ namespace MelodiaTherapy.Pages
 
 				if (DataService.IsReady)
 				{
-					NavigationService.PushPage(new ProgressPage());
+					NavigationService.SetAsMainPage(new ProgressPage());
 				}
 				else
 				{

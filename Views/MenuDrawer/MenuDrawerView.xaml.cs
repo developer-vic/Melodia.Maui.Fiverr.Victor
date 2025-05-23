@@ -18,17 +18,32 @@ public partial class MenuDrawerView : ContentView
 
 public class MenuDrawerViewModel : BaseViewModel
 {
+	private string? versionInfo;
+	private string? deviceIdInfo;
 
-	public string VersionInfo => $"{AppInfo.VersionString} ({AppInfo.BuildString})";
-	public string DeviceIdInfo { get; set; }
+	public string? VersionInfo { get => versionInfo; set { SetProperty(ref versionInfo, value); } }
+	public string? DeviceIdInfo { get => deviceIdInfo; set { SetProperty(ref deviceIdInfo, value); } }
 
-	public ICommand? MyCommand { get; set; }
+	public ICommand MyCommand { get; set; }
 
 	public MenuDrawerViewModel()
 	{
-		var deviceIdService = ServiceHelper.GetService<IDeviceIdService>();
-		DeviceIdInfo = deviceIdService?.GetDeviceId() ?? Guid.NewGuid().ToString().ToUpper();
 		MyCommand = new Command<string>(OnButtonClicked);
+		InitData();
+	}
+
+	private void InitData()
+	{
+		Task.Factory.StartNew(() =>
+		{
+			var deviceIdService = ServiceHelper.GetService<IDeviceIdService>();
+
+			MainThread.BeginInvokeOnMainThread(() =>
+			{
+				VersionInfo = $"{AppInfo.VersionString} ({AppInfo.BuildString})";
+				DeviceIdInfo = deviceIdService?.GetDeviceId() ?? Guid.NewGuid().ToString().ToUpper();
+			});
+		});
 	}
 
 	private async void OnButtonClicked(string par)

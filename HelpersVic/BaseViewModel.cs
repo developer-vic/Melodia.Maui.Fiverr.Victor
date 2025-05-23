@@ -30,4 +30,6 @@ public class BaseViewModel : INotifyPropertyChanged
 public interface IMenuDrawerVM
 {
     public void OnDrawerCloseClicked();
+	public void ShowDrawer();
+	public void HideDrawer();
 }

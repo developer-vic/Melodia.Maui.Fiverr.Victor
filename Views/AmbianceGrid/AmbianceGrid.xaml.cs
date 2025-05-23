@@ -7,17 +7,24 @@ namespace MelodiaTherapy.Views;
 
 public class AmbianceGrid : ContentView
 {
-	private readonly MelodiaController? melodia;
-	private readonly AmbianceController? acontroller;
-	private readonly bool isMobile;
-	private readonly Grid grid;
+	private MelodiaController? melodia;
+	private AmbianceController? acontroller;
+	private bool isMobile;
+	private Grid? grid;
 
 	public AmbianceGrid()
 	{
-		melodia = ServiceHelper.GetService<MelodiaController>();
-		acontroller = ServiceHelper.GetService<AmbianceController>();
-		isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+		Task.Factory.StartNew(() =>
+		{
+			melodia = ServiceHelper.GetService<MelodiaController>();
+			acontroller = ServiceHelper.GetService<AmbianceController>();
+			isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+			InitData();
+		});
+	}
 
+	private void InitData()
+	{
 		grid = new Grid
 		{
 			ColumnSpacing = 12,
@@ -34,14 +41,17 @@ public class AmbianceGrid : ContentView
 
 	private void LoadAmbiances()
 	{
+		if (grid == null)
+			return;
+
 		int columns = isMobile ? 2 : 3;
 		grid.ColumnDefinitions.Clear();
-		
+
 		for (int i = 0; i < columns; i++)
 			grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
 		if (acontroller == null || melodia == null)
-			return; 
+			return;
 
 		if (acontroller.Ambiances == null || acontroller.Ambiances.Count == 0)
 		{
@@ -56,11 +66,12 @@ public class AmbianceGrid : ContentView
 
 	private void InitAmbianceUI(int columns)
 	{
-		if (acontroller?.Ambiances == null || melodia == null) return;
+		if (acontroller?.Ambiances == null || melodia == null || grid == null)
+			return;
 
 		grid.RowDefinitions.Clear();
 		int rows = (int)Math.Ceiling(acontroller.Ambiances.Count / (double)columns);
-		
+
 		for (int i = 0; i < rows; i++)
 			grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 

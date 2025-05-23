@@ -10,7 +10,11 @@ public partial class TimerWidget : ContentView
 	public TimerWidget()
 	{
 		InitializeComponent();
-		StartTimer();
+
+		Task.Factory.StartNew(() =>
+		{
+			StartTimer();
+		});
 	}
 
 	private void StartTimer()
@@ -43,9 +47,9 @@ public partial class TimerWidget : ContentView
 				);
 
 				NavigationService.NavigateToStartPageAsync();
-				
+
 				await snackbar.Show();
-				
+
 			});
 		};
 		_timer.Start();

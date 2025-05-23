@@ -7,17 +7,24 @@ namespace MelodiaTherapy.Views;
 
 public class TreatmentGrid : ContentView
 {
-	private readonly MelodiaController? melodia;
-	private readonly TreatmentController? tcontroller;
-	private readonly bool isMobile;
-	private readonly Grid grid;
+	private MelodiaController? melodia;
+	private TreatmentController? tcontroller;
+	private bool isMobile;
+	private Grid? grid;
 
 	public TreatmentGrid()
 	{
-		melodia = ServiceHelper.GetService<MelodiaController>();
-		tcontroller = ServiceHelper.GetService<TreatmentController>();
-		isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+		Task.Factory.StartNew(() =>
+		{
+			melodia = ServiceHelper.GetService<MelodiaController>();
+			tcontroller = ServiceHelper.GetService<TreatmentController>();
+			isMobile = DeviceInfo.Idiom == DeviceIdiom.Phone;
+			InitData();
+		});
+	}
 
+	private void InitData()
+	{
 		grid = new Grid
 		{
 			ColumnSpacing = 12,
@@ -34,9 +41,12 @@ public class TreatmentGrid : ContentView
 
 	private void LoadTreatments()
 	{
+		if (grid == null)
+			return;
+
 		int columns = isMobile ? 2 : 3;
 		grid.ColumnDefinitions.Clear();
-		
+
 		for (int i = 0; i < columns; i++)
 			grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
@@ -56,12 +66,12 @@ public class TreatmentGrid : ContentView
 
 	private void InitTreatmentUI(int columns)
 	{
-		if (tcontroller?.Treatments == null || melodia == null)
+		if (tcontroller?.Treatments == null || melodia == null || grid == null)
 			return;
 
 		grid.RowDefinitions.Clear();
 		int rows = (int)Math.Ceiling(tcontroller.Treatments.Count / (double)columns);
-		
+
 		for (int i = 0; i < rows; i++)
 			grid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 

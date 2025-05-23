@@ -12,12 +12,20 @@ public partial class ProgressNumber : ContentView
         InitializeComponent();
         Index = index;
         Controller = controller;
-        Controller.PropertyChanged += (s, e) => UpdateVisual();
-        UpdateVisual();
 
-        var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += (s, e) => Controller.JumpToPage(Index);
-        this.GestureRecognizers.Add(tapGesture);
+        Task.Factory.StartNew(() =>
+        {
+            Controller.PropertyChanged += (s, e) => UpdateVisual();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateVisual();
+
+                var tapGesture = new TapGestureRecognizer();
+                tapGesture.Tapped += (s, e) => Controller.JumpToPage(Index);
+                this.GestureRecognizers.Add(tapGesture);
+            });
+        });
     }
 
     void UpdateVisual()

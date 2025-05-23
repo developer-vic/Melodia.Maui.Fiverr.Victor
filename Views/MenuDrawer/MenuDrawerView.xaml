@@ -2,8 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:MelodiaTherapy.Views"
-             x:Class="MelodiaTherapy.Views.MenuDrawerView"
-             x:Name="this">
+             x:Class="MelodiaTherapy.Views.MenuDrawerView">
 
     <Grid BackgroundColor="#17142b">
         <Grid.RowDefinitions>
@@ -25,7 +24,7 @@
                 <Label Grid.Column="0"
                        Text="Menu"
                        TextColor="White"
-                       FontSize="{OnIdiom Phone=20, Tablet=36, Default=20}"
+                       FontSize="20"
                        FontAttributes="Bold"
                        FontFamily="OpenSansSemibold"
                        HorizontalOptions="Center"
@@ -48,7 +47,7 @@
                     <Label Text="General"
                            Margin="16,16,16,8"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontSize="16"
                            FontAttributes="Bold"/>
 
                     <views:SettingsTile Title="Language"
@@ -75,13 +74,12 @@
                                         Command="{Binding MyCommand}"
                                         CommandParameter="NavigateToSaved"/> -->
                 </StackLayout>
-
-                <!-- Social Section -->
+ 
                 <StackLayout>
                     <Label Text="Social"
                            Margin="16,16,16,8"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontSize="16"
                            FontAttributes="Bold"/>
 
                     <views:SettingsTile Title="Instagram"
@@ -104,17 +102,16 @@
 
                     <views:SettingsTile Title="Give Feedback"
                                         Description="Give Feedback"
-                                        IconGlyph="star.png" 
+                                        IconGlyph="star.png"
                                         Command="{Binding MyCommand}"
                                         CommandParameter="RateApp"/>
                 </StackLayout>
-
-                <!-- Support Section -->
+ 
                 <StackLayout>
                     <Label Text="Support"
                            Margin="16,16,16,8"
                            TextColor="White"
-                           FontSize="{OnIdiom Phone=16, Tablet=24, Default=16}"
+                           FontSize="16"
                            FontAttributes="Bold"/>
 
                     <views:SettingsTile Title="FAQ"
@@ -153,7 +150,10 @@
                                         Command="{Binding MyCommand}"
                                         CommandParameter="CopyId"/>
                 </StackLayout>
+
+
             </StackLayout>
         </ScrollView>
     </Grid>
+
 </ContentView>

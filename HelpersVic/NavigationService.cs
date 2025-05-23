@@ -59,6 +59,7 @@ namespace MelodiaTherapy.Helpers
                     await mainPage.Navigation.PopAsync();
                 }
             }
+            else NavigateToStartPageAsync();
         }
 
         internal static async Task DisplayAlert(string title, string message, string OK)
@@ -75,6 +76,7 @@ namespace MelodiaTherapy.Helpers
 
         internal static void NavigateToStartPageAsync()
         {
+            //PushPage(new StartPage());
             if (Application.Current != null)
             {
                 Application.Current.Windows[0].Page = new NavigationPage(new StartPage());
@@ -83,6 +85,7 @@ namespace MelodiaTherapy.Helpers
 
         internal static void SetAsMainPage(ContentPage mainContentPage)
         {
+            //PushPage(mainContentPage);
             if (Application.Current != null)
             {
                 Application.Current.Windows[0].Page = new NavigationPage(mainContentPage);

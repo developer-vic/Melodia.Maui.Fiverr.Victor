@@ -3,17 +3,25 @@ using MelodiaTherapy.Controllers;
 namespace MelodiaTherapy.Views;
 
 public partial class ProgressLine : ContentView
-{ 
+{
 	public int Index { get; set; }
 	public MelodiaController? Controller { get; set; }
 
 	public ProgressLine(int index, MelodiaController controller)
 	{
 		InitializeComponent();
-		Index = index;
-		Controller = controller;
-		Controller.PropertyChanged += (s, e) => DrawLine();
-		DrawLine();
+
+		Task.Factory.StartNew(() =>
+		{
+			Index = index;
+			Controller = controller;
+			Controller.PropertyChanged += (s, e) => DrawLine(); 
+			
+			MainThread.BeginInvokeOnMainThread(() =>
+			{
+				DrawLine();
+			});
+		});
 	}
 
 	void DrawLine()
@@ -28,7 +36,7 @@ public partial class ProgressLine : ContentView
 				WidthRequest = isBar ? 6 : 3,
 				HeightRequest = 1,
 				Opacity = 0.5,
-				BackgroundColor = isBar || Controller?.SelectedPage > Index 
+				BackgroundColor = isBar || Controller?.SelectedPage > Index
 					? Colors.Transparent : Color.FromArgb("#17142b")
 			});
 		}

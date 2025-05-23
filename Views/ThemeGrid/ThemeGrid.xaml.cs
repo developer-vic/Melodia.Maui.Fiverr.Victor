@@ -2,33 +2,32 @@ using MelodiaTherapy.Controllers;
 using MelodiaTherapy.Helpers;
 using MelodiaTherapy.Models;
 using MelodiaTherapy.Pages;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace MelodiaTherapy.Views
 {
     public class ThemeGrid : ContentView
     {
-        private readonly MelodiaController? _melodiaController;
-        private readonly ThemeController? _themeController;
-        private readonly LanguageController? _languageController;
+        private MelodiaController? _melodiaController;
+        private ThemeController? _themeController;
+        private LanguageController? _languageController;
 
-        private Grid _grid;
-        private ActivityIndicator _loadingIndicator;
-        private bool _isLoading = false;
+        private Grid? _grid;
+        private ActivityIndicator? _loadingIndicator;
 
         public ThemeGrid()
         {
-            _melodiaController = ServiceHelper.GetService<MelodiaController>();
-            _themeController = ServiceHelper.GetService<ThemeController>();
-            _languageController = ServiceHelper.GetService<LanguageController>();
+            Task.Factory.StartNew(() =>
+            {
+                _melodiaController = ServiceHelper.GetService<MelodiaController>();
+                _themeController = ServiceHelper.GetService<ThemeController>();
+                _languageController = ServiceHelper.GetService<LanguageController>();
+                InitData();
+            });
+        }
 
+        private void InitData()
+        {
             _grid = new Grid
             {
                 Padding = 10,
@@ -56,30 +55,30 @@ namespace MelodiaTherapy.Views
 
         private void LoadGridItems()
         {
-            _grid.Children.Clear();
-
-            if (_themeController == null)
+            if (_themeController == null || _grid == null)
                 return;
+
+            _grid.Children.Clear();
 
             if (_themeController.Themes == null || _themeController.Themes.Count == 0)
             {
                 Task.Factory.StartNew(async () =>
                 {
                     _themeController.Themes = await _themeController.LoadDemoThemes();
-                    MainThread.BeginInvokeOnMainThread(() => InitThemesUI());
+                    await Task.Factory.StartNew(() => InitThemesUI());
                 });
             }
-            else InitThemesUI();
+            else Task.Factory.StartNew(() => InitThemesUI());
         }
 
         private void InitThemesUI()
         {
-            if (_themeController == null)
+            if (_themeController == null || _grid == null)
                 return;
 
             int row = 0, col = 0;
             int countToUse = _themeController.Themes.Count;
-            
+
             for (int i = 0; i < countToUse; i++)
             {
                 var theme = _themeController.Themes[i];
@@ -104,7 +103,7 @@ namespace MelodiaTherapy.Views
         {
             //var imagePath = ThemeController.GetLocalImagePath(theme);
             var image = new Image
-            { 
+            {
                 Source = //File.Exists(imagePath) ? ImageSource.FromFile(imagePath) :
                     ServiceHelper.FixMalformedUrl(theme.ImageUrl),
                 Aspect = Aspect.AspectFill,
@@ -112,7 +111,7 @@ namespace MelodiaTherapy.Views
             };
 
             var tapGesture = new TapGestureRecognizer();
-            tapGesture.Tapped += async (s, e) => await OnThemeTapped(theme, index);
+            tapGesture.Tapped += (s, e) => OnThemeTapped(theme, index);
 
             var frame = new Border
             {
@@ -148,7 +147,7 @@ namespace MelodiaTherapy.Views
             return frame;
         }
 
-        private async Task OnThemeTapped(ThemeModel theme, int index)
+        private async void OnThemeTapped(ThemeModel theme, int index)
         {
             if (theme.IsPremium && !AppData.EntitlementIsActive)
             {
@@ -158,7 +157,7 @@ namespace MelodiaTherapy.Views
 
             if (_melodiaController == null || _languageController == null)
                 return;
-            
+
             if (theme == ThemeController.DefaultThemeModel &&
                 _melodiaController.SelectedTreatment == TreatmentController.DefaultTreatmentModel &&
                 _melodiaController.SelectedAmbiance == AmbianceController.DefaultAmbianceModel)
@@ -180,18 +179,17 @@ namespace MelodiaTherapy.Views
                 return;
             }
 
-            _melodiaController.SelectedTheme = theme;
-            Preferences.Set("themeId", index);
+            await Task.Factory.StartNew(() =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    _melodiaController.SelectedTheme = theme;
+                    Preferences.Set("themeId", index);
+                    _melodiaController.SetSoundsValue(null, 100);
+                });
+            });
 
-            _melodiaController.SetSoundsValue(null, 100);
             _melodiaController.GotoPlayerPage();
-        }
-
-        private void ShowLoading(bool show)
-        {
-            _loadingIndicator.IsVisible = show;
-            _loadingIndicator.IsRunning = show;
-            _isLoading = show;
         }
     }
 }
